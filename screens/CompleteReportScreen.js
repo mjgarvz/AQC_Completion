@@ -40,6 +40,17 @@ export default class EditProfileScreen extends Component {
       newContactNumber: this.props.route.params.contactNum,
       newEmailAddress: this.props.route.params.emailAddress,
       newResponderAddress: this.props.route.params.respoderAddress,
+
+      //reportState
+      reportID: this.props.route.params.repId,
+      reporterName: this.props.route.params.reportersName,
+      reporterContact: this.props.route.params.reportersCont,
+      reporterBarangay: this.props.route.params.reporterBRGY,
+      reporterLocation: this.props.route.params.reporterLoc,
+      reporterIncident: this.props.route.params.reportedIncident,
+      reporterInjured: this.props.route.params.reportedInj,
+      reportDesc: this.props.route.params.reportDescription,
+      reportDnT: this.props.route.params.dateAndTime,
     };
   }
 
@@ -52,54 +63,79 @@ export default class EditProfileScreen extends Component {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.mainContainer}>
-            <Text>
-              <View>
-                <Text style={styles.headerText}>First Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.firstName}
-                  onChangeText={(data) => this.setState({ newFirstName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Middle Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.middleName}
-                  onChangeText={(data) =>
-                    this.setState({ newMiddleName: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Last Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.lastName}
-                  onChangeText={(data) => this.setState({ newLastName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Contact:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.conNum}
-                  onChangeText={(data) =>
-                    this.setState({ newContactNumber: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Team:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.emailAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newEmailAddress: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Department:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.respoAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newResponderAddress: data })
-                  }
-                ></TextInput>
-              </View>
-            </Text>
+            <View style={styles.card}>
+              <Text>
+                <View style={styles.repCard}>
+                  <Text style={styles.textStatus}>REPORTED INCIDENT</Text>
+                  <Text style={styles.itemText}>
+                    <Text style={styles.accHead}>Report ID:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reportID + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Reporter:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {"\n" + this.state.reporterName + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Contact:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {"\n" + this.state.reporterContact + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Barangay:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reporterBarangay + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Location:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reporterLocation + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Incident:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reporterIncident + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Injuries:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reporterInjured + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Description:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {this.state.reportDesc + "\n"}
+                    </Text>
+
+                    <Text style={styles.accHead}>Date and Time:</Text>
+                    <Text style={styles.itemVal} editable={false}>
+                      {"\n" + this.state.reportDnT}
+                    </Text>
+                  </Text>
+                </View>
+              </Text>
+            </View>
+            <View style={styles.reportForm}>
+              <Text style={styles.reportHeader}>Report Information</Text>
+              <Text>Responder Team</Text>
+              <Text>Vehichle Used</Text>
+              <Text>Time on Dispatch</Text>
+              <Text>Time on Arrival on Scene</Text>
+              <Text>Time on Return to Base</Text>
+              <Text>Gas Consumed?</Text>
+              <Text>Time on Incident Under Control</Text>
+              <Text>Distance from Base</Text>
+              <Text>Description of Incident Location</Text>
+              <Text>Casualties</Text>
+              <Text>Injured</Text>
+              <Text>Deaths</Text>
+              <Text>Equipment Used</Text>
+              <Text>Team Members?</Text>
+              <Text>Description of Events</Text>
+              <Text>Cause of Incident*?</Text>
+              <Text>Actions Taken</Text>
+            </View>
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback style={styles.buttonCancel}>
                 <Button
@@ -128,7 +164,7 @@ export default class EditProfileScreen extends Component {
                 ></Button>
               </TouchableWithoutFeedback>
 
-              <TouchableWithoutFeedback style={styles.buttonUpdate}>
+              {/* <TouchableWithoutFeedback style={styles.buttonUpdate}>
                 <Button
                   title="update"
                   color="#87c830"
@@ -183,7 +219,7 @@ export default class EditProfileScreen extends Component {
                 >
                   <Text>Update</Text>
                 </Button>
-              </TouchableWithoutFeedback>
+              </TouchableWithoutFeedback> */}
             </View>
           </View>
         </ScrollView>
@@ -193,27 +229,77 @@ export default class EditProfileScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    padding: 15,
+  container: {},
+  itemCard: {
+    padding: 25,
+    paddingTop: 0,
+    width: Dimensions.get("screen").width,
   },
-  buttonContainer: {
-    paddingTop: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
-  buttonCancel: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  buttonUpdate: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  headerText: {
+  itemText: {
     fontSize: 20,
     color: "black",
   },
-  inputTextF: {
+  LogButt: {
+    position: "absolute",
+  },
+  accHead: {
+    fontSize: 15,
+    color: "grey",
+  },
+  buttonDuty: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.436,
+    paddingRight: 10,
+  },
+  buttonStatus: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.436,
+  },
+  buttonComplete: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.87,
+    paddingTop: 10,
+    paddingRight: 10,
+  },
+  buttonMap: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.436,
+    paddingRight: 10,
+  },
+  buttonCall: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.436,
+  },
+  statusCheck: {
     width: Dimensions.get("screen").width,
-    borderBottomWidth: 1,
-    borderColor: "#ff8000",
+    backgroundColor: "#660000",
+  },
+  textStatus: {
+    fontSize: 25,
+    padding: -5,
+  },
+  repCard: {
+    
+    padding: 25,
+    width: Dimensions.get("screen").width * .95,
+    borderWidth: 1,
+  },
+  nameHead: {
+    fontSize: 24,
+  },
+  card: {
+    margin: 10,
+  },
+  reportHeader: {
+    backgroundColor: "#660000",
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 25,
+    padding: -5,
   },
 });

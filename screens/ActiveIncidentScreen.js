@@ -15,6 +15,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native";
 import { showLocation } from "react-native-map-link";
+import { ThemeConsumer } from "react-native-elements";
 
 export default class ActiveIncidentScreen extends React.Component {
   constructor(props) {
@@ -34,6 +35,16 @@ export default class ActiveIncidentScreen extends React.Component {
       conNum: "",
       emailAdd: "",
       respoAdd: "",
+      //reportCreds
+      reportID: "",
+      reporterName: "",
+      reporterContact: "",
+      reporterBarangay: "",
+      reportLocation: "",
+      reportIncident: "",
+      reportInjury: "",
+      reportDesc: "",
+      reportDnT: "",
     };
     setInterval(() => {
       this.componentDidMount();
@@ -49,6 +60,16 @@ export default class ActiveIncidentScreen extends React.Component {
   };
   //active report
   _renderToComplete = ({ item, index }) => {
+    this.state.reportID = item.id;
+    this.state.reporterName = item.first_name + " " + item.last_name;
+    this.state.reporterContact = item.phone;
+    this.state.reporterBarangay = item.barangay;
+    this.state.reportLocation = item.location_of_incident;
+    this.state.reportIncident = item.incident_type;
+    this.state.reportInjury = item.injuries;
+    this.state.reportDesc = item.short_description;
+    this.state.reportDnT = item.date_time;
+
     if (item.id === undefined) {
       this.state.status = "Available";
       return (
@@ -59,86 +80,86 @@ export default class ActiveIncidentScreen extends React.Component {
     } else {
       this.state.status = "On Call";
       return (
-          <View style={styles.repCard}>
-            <Text style={styles.itemText}>
-              <Text style={styles.accHead}>Reporter:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {"\n" + item.first_name + " " + item.last_name + "\n"}
-              </Text>
+        <View style={styles.repCard}>
+          <Text style={styles.itemText}>
+            <Text style={styles.accHead}>Reporter:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {"\n" + item.first_name + " " + item.last_name + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Contact:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {"\n" + item.phone + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Contact:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {"\n" + item.phone + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Barangay:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.barangay + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Barangay:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.barangay + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Location:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.location_of_incident + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Location:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.location_of_incident + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Incident:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.incident_type + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Incident:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.incident_type + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Injuries:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.injuries + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Injuries:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.injuries + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Description:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.short_description + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Description:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.short_description + "\n"}
+            </Text>
 
-              <Text style={styles.accHead}>Date and Time:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.date_time + "\n"}
-              </Text>
+            <Text style={styles.accHead}>Date and Time:</Text>
+            <Text style={styles.itemVal} editable={false}>
+              {item.date_time + "\n"}
+            </Text>
 
-              <TouchableOpacity style={styles.buttonDuty}>
-                <Button
-                  color="#FF8000"
-                  title="Call"
-                  onPress={() => {
-                    Linking.openURL("tel: " + item.phone);
-                  }}
-                ></Button>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonDuty}>
-                <Button
-                  color="#FF8000"
-                  title="Navigate"
-                  onPress={() => {
-                    const desti =
-                      item.location_of_incident +
-                      ", " +
-                      item.barangay +
-                      ", Quezon City, Metro Manila";
-                    const end = desti.toString();
-                    console.log(end);
+            <TouchableOpacity style={styles.buttonDuty}>
+              <Button
+                color="#FF8000"
+                title="Call"
+                onPress={() => {
+                  Linking.openURL("tel: " + item.phone);
+                }}
+              ></Button>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonDuty}>
+              <Button
+                color="#FF8000"
+                title="Navigate"
+                onPress={() => {
+                  const desti =
+                    item.location_of_incident +
+                    ", " +
+                    item.barangay +
+                    ", Quezon City, Metro Manila";
+                  const end = desti.toString();
+                  console.log(end);
 
-                    showLocation({
-                      longitude: 0,
-                      latitude: 0,
-                      title: end,
-                    });
-                  }}
-                ></Button>
-              </TouchableOpacity>
-              
-              {/*create report output */}
-              <TouchableOpacity style={styles.buttonComplete}>
-                <Button
-                  color="#FF8000"
+                  showLocation({
+                    longitude: 0,
+                    latitude: 0,
+                    title: end,
+                  });
+                }}
+              ></Button>
+            </TouchableOpacity>
+
+            {/*create report output */}
+            <TouchableOpacity style={styles.buttonComplete}>
+              <Button
+                color="#FF8000"
                 title="Complete Report"
                 onPress={() => {
-                  console.log(this.state.respoUID)
+                  console.log(this.state.respoUID + this.state.reportID);
                   this.props.navigation.navigate("CompleteReport", {
                     //responder data
                     rID: this.state.respoUID,
@@ -150,12 +171,21 @@ export default class ActiveIncidentScreen extends React.Component {
                     emailAddress: this.state.emailAdd,
                     respoderAddress: this.state.respoAdd,
                     //report data
+                    repId: this.state.reportID,
+                    reportersName: this.state.reporterName,
+                    reportersCont: this.state.reporterContact,
+                    reporterBRGY: this.state.reporterBarangay,
+                    reporterLoc: this.state.reportLocation,
+                    reportedIncident: this.state.reportIncident,
+                    reportedInj: this.state.reportInjury,
+                    reportDescription: this.state.reportDesc,
+                    dateAndTime: this.state.reportDnT,
                   });
                 }}
-                ></Button>
-              </TouchableOpacity>
-            </Text>
-          </View>
+              ></Button>
+            </TouchableOpacity>
+          </Text>
+        </View>
       );
     }
   };
@@ -217,7 +247,7 @@ export default class ActiveIncidentScreen extends React.Component {
   }
   //profile data
   _renderItem = ({ item, index }) => {
-    this.state.respoUID = item.id + ""
+    this.state.respoUID = item.id + "";
     this.state.firstName = item.first_name + "";
     this.state.middleName = item.middle_name + "";
     this.state.lastName = item.last_name + "";
@@ -311,12 +341,12 @@ export default class ActiveIncidentScreen extends React.Component {
             <TextInput editable={false}>{item.department + "\n"}</TextInput>
             <Text style={styles.accHead}>Team: </Text>
             <TextInput editable={false}>{item.team + "\n"}</TextInput>
-            
+
             <TouchableOpacity>
               <Button
                 title="Edit Profile"
                 onPress={() => {
-                  console.log(this.state.respoUID)
+                  console.log(this.state.respoUID);
                   this.props.navigation.navigate("CompleteReport", {
                     rID: this.state.respoUID,
                     fname: this.state.firstName,
@@ -330,7 +360,9 @@ export default class ActiveIncidentScreen extends React.Component {
                 }}
               />
             </TouchableOpacity>
-            <Text style={styles.accHead}>{"\n"}Status:{"\n"}</Text>
+            <Text style={styles.accHead}>
+              {"\n"}Status:{"\n"}
+            </Text>
             <TouchableOpacity style={styles.buttonDuty}>
               <Button
                 color={butColOne}
@@ -413,9 +445,9 @@ export default class ActiveIncidentScreen extends React.Component {
 
     return (
       //<SafeAreaView>
-        <View style={styles.container}>
-          <View>
-            <View style={{display: 'none'}}>
+      <View style={styles.container}>
+        <View>
+          <View style={{ display: "none" }}>
             {/*profile data rendering but hidden to provide data*/}
             <FlatList
               data={dataSource}
@@ -423,35 +455,34 @@ export default class ActiveIncidentScreen extends React.Component {
               keyExtractor={(item, index) => index.toString()}
             ></FlatList>
           </View>
-            <View style={styles.statusCheck}>
-              <TouchableWithoutFeedback>
-                <TextInput style={styles.textStatus} editable={false}>
-                  Assigned Report:
-                </TextInput>
-              </TouchableWithoutFeedback>
-            </View>
-            <View>
-              <FlatList
-                horizontal
-                pagingEnabled={true}
-                showsHorizontalScrollIndicator={false}
-                data={dataSourceTwo}
-                renderItem={this._renderToComplete}
-                keyExtractor={(item, index) => index.toString()}
-                ListEmptyComponent={this._emptyList()}
-                extraData={this.state}
-              ></FlatList>
-            </View>
+          <View style={styles.statusCheck}>
+            <TouchableWithoutFeedback>
+              <TextInput style={styles.textStatus} editable={false}>
+                Assigned Report:
+              </TextInput>
+            </TouchableWithoutFeedback>
+          </View>
+          <View>
+            <FlatList
+              horizontal
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              data={dataSourceTwo}
+              renderItem={this._renderToComplete}
+              keyExtractor={(item, index) => index.toString()}
+              ListEmptyComponent={this._emptyList()}
+              extraData={this.state}
+            ></FlatList>
           </View>
         </View>
+      </View>
       //</SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   itemCard: {
     padding: 25,
     paddingTop: 0,

@@ -50,10 +50,8 @@ export default class ProfileScreen extends React.Component {
   _renderToComplete = ({ item, index }) => {
     if (item.id === undefined) {
       this.state.status = "Available";
-
     } else {
       this.state.status = "On Call";
-      
     }
   };
 
@@ -113,7 +111,7 @@ export default class ProfileScreen extends React.Component {
     });
   }
   _renderItem = ({ item, index }) => {
-    this.state.respoUID = item.id + ""
+    this.state.respoUID = item.id + "";
     this.state.firstName = item.first_name + "";
     this.state.middleName = item.middle_name + "";
     this.state.lastName = item.last_name + "";
@@ -207,12 +205,12 @@ export default class ProfileScreen extends React.Component {
             <TextInput editable={false}>{item.department + "\n"}</TextInput>
             <Text style={styles.accHead}>Team: </Text>
             <TextInput editable={false}>{item.team + "\n"}</TextInput>
-            
+
             <TouchableOpacity>
               <Button
                 title="Edit Profile"
                 onPress={() => {
-                  console.log(this.state.respoUID)
+                  console.log(this.state.respoUID);
                   this.props.navigation.navigate("EditProfile", {
                     rID: this.state.respoUID,
                     fname: this.state.firstName,
@@ -226,7 +224,9 @@ export default class ProfileScreen extends React.Component {
                 }}
               />
             </TouchableOpacity>
-            <Text style={styles.accHead}>{"\n"}Status:{"\n"}</Text>
+            <Text style={styles.accHead}>
+              {"\n"}Status:{"\n"}
+            </Text>
             <TouchableOpacity style={styles.buttonDuty}>
               <Button
                 color={butColOne}
@@ -309,39 +309,38 @@ export default class ProfileScreen extends React.Component {
 
     return (
       //<SafeAreaView>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View>
+          {/*profile data*/}
+          <FlatList
+            data={dataSource}
+            renderItem={this._renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          ></FlatList>
+        </View>
+        <View>
+          {/*updates oncall status*/}
           <View>
-            {/*profile data*/}
             <FlatList
-              data={dataSource}
-              renderItem={this._renderItem}
+              horizontal
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              data={dataSourceTwo}
+              renderItem={this._renderToComplete}
               keyExtractor={(item, index) => index.toString()}
+              ListEmptyComponent={this._emptyList()}
+              extraData={this.state}
             ></FlatList>
           </View>
-          <View>
-            {/*updates oncall status*/}
-            <View>
-              <FlatList
-                horizontal
-                pagingEnabled={true}
-                showsHorizontalScrollIndicator={false}
-                data={dataSourceTwo}
-                renderItem={this._renderToComplete}
-                keyExtractor={(item, index) => index.toString()}
-                ListEmptyComponent={this._emptyList()}
-                extraData={this.state}
-              ></FlatList>
-            </View>
-          </View>
         </View>
+      </View>
       //</SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   itemCard: {
     padding: 25,
     paddingTop: 0,

@@ -129,7 +129,7 @@ export default class CreateChatScreen extends Component {
               <Text>Message:</Text>
               <View style={styles.messageView}>
                 <TextInput
-                style={styles.textinputstyle}
+                  style={styles.textinputstyle}
                   autoCorrect={false}
                   placeholder={this.state.placeholder}
                   defaultValue={this.state.defVal}
@@ -142,7 +142,7 @@ export default class CreateChatScreen extends Component {
                   title="Send"
                   onPress={() => {
                     this.SendMsg();
-                    this.setState({ userMessage: "", defVal: ""});
+                    this.setState({ userMessage: "", defVal: "" });
                     this.componentDidMount();
                   }}
                 />
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 10,
     paddingRight: 10,
-
   },
   form: {
     paddingLeft: 10,
@@ -202,5 +201,5 @@ const styles = StyleSheet.create({
   },
   textinputstyle: {
     width: Dimensions.get("screen").width * 0.8,
-  }
+  },
 });

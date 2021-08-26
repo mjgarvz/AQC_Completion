@@ -123,7 +123,7 @@ export default class IncidentScreen extends React.Component {
                   text: "Respond",
                   onPress: () => {
                     //send notification
-                    
+
                     //assign report to self
                     const repID = item.id + "";
                     fetch(
