@@ -24,7 +24,7 @@ const ActiveStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabScreen = () => (
-  <Tab.Navigator initialRouteName="Profile" options={{}}>
+  <Tab.Navigator initialRouteName="Active" options={{}}>
     <Tab.Screen
       name="Chat"
       component={ChatStackScreen}

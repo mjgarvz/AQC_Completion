@@ -116,25 +116,81 @@ export default class EditProfileScreen extends Component {
                 </View>
               </Text>
             </View>
+            <Text style={styles.reportHeader}>Report Information</Text>
             <View style={styles.reportForm}>
-              <Text style={styles.reportHeader}>Report Information</Text>
-              <Text>Responder Team</Text>
-              <Text>Vehichle Used</Text>
-              <Text>Time on Dispatch</Text>
-              <Text>Time on Arrival on Scene</Text>
-              <Text>Time on Return to Base</Text>
-              <Text>Gas Consumed?</Text>
-              <Text>Time on Incident Under Control</Text>
-              <Text>Distance from Base</Text>
-              <Text>Description of Incident Location</Text>
-              <Text>Casualties</Text>
-              <Text>Injured</Text>
-              <Text>Deaths</Text>
-              <Text>Equipment Used</Text>
-              <Text>Team Members?</Text>
-              <Text>Description of Events</Text>
-              <Text>Cause of Incident*?</Text>
-              <Text>Actions Taken</Text>
+            
+                <Text style={styles.reportText}>Responder</Text>
+                <TextInput 
+                style={styles.reportTextInput}
+                value={this.state.firstName + " " + this.state.lastName}
+                editable={false}></TextInput>
+                <Text style={styles.reportText}>Vehicle Used</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                placeholder={"Vehicle and Number ex. Ambulance 12"}></TextInput>
+
+                <Text style={styles.reportHeader}>Response Time</Text>
+                <Text style={styles.reportText}>Time on Dispatch</Text>
+                <TextInput 
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Time on Arrival on Scene</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Time on Return to Base</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Time on Incident Under Control</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+
+                <Text style={styles.reportHeader}>Incident Description</Text>
+                <Text style={styles.reportText}>Distance from Base</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Description of Incident Location</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportSubHeader}>Civilian Casualties</Text>
+                <Text style={styles.reportText}>Injured</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Deaths</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportSubHeader}>Responder Casualties</Text>
+                <Text style={styles.reportText}>Injured</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+                <Text style={styles.reportText}>Deaths</Text>
+                <TextInput
+                style={styles.reportTextInput}></TextInput>
+
+                <Text style={styles.reportHeader}>Actions Made</Text>
+                <Text style={styles.reportText}>Equipment Used</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                multiline></TextInput>
+                <Text style={styles.reportText}>Problems Encountered</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                multiline
+                numberOfLines={5}></TextInput>
+                <Text style={styles.reportText}>Description of Events</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                multiline
+                numberOfLines={5}></TextInput>
+                <Text style={styles.reportText}>Cause of Incident</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                multiline
+                numberOfLines={5}></TextInput>
+                <Text style={styles.reportText}>Actions Taken</Text>
+                <TextInput
+                style={styles.reportTextInput}
+                multiline
+                numberOfLines={5}></TextInput>
+
             </View>
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback style={styles.buttonCancel}>
@@ -166,10 +222,10 @@ export default class EditProfileScreen extends Component {
 
               {/* <TouchableWithoutFeedback style={styles.buttonUpdate}>
                 <Button
-                  title="update"
+                  title="Create"
                   color="#87c830"
                   onPress={() => {
-                    fetch("https://alert-qc.com/mobile/updateRespoUser.php", {
+                    fetch("https://alert-qc.com/mobile/createResponderReport.php", {
                       method: "POST",
                       headers: {
                         Accept: "application/json",
@@ -302,4 +358,25 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: -5,
   },
+  reportSubHeader: {
+    backgroundColor: "#660000",
+    color: "#fff",
+    fontSize: 23,
+    padding: -5,
+  },
+  reportForm: {
+    padding: 10,
+    color: "#000",
+
+  },
+  reportText: {
+    color: "#000",
+    fontSize: 20
+  },
+  reportTextInput: {
+    color: "#000",
+    fontSize: 20,
+    backgroundColor: "#DCDCDC",
+  }
+
 });

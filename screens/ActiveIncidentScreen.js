@@ -157,7 +157,7 @@ export default class ActiveIncidentScreen extends React.Component {
             <TouchableOpacity style={styles.buttonComplete}>
               <Button
                 color="#FF8000"
-                title="Complete Report"
+                title="Create Complete Report"
                 onPress={() => {
                   console.log(this.state.respoUID + this.state.reportID);
                   this.props.navigation.navigate("CompleteReport", {
