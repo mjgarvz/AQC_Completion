@@ -34,13 +34,6 @@ export default class EditProfileScreen extends Component {
       emailAdd: this.props.route.params.emailAddress,
       respoAdd: this.props.route.params.respoderAddress,
 
-      newFirstName: this.props.route.params.fname,
-      newMiddleName: this.props.route.params.mname,
-      newLastName: this.props.route.params.lname,
-      newContactNumber: this.props.route.params.contactNum,
-      newEmailAddress: this.props.route.params.emailAddress,
-      newResponderAddress: this.props.route.params.respoderAddress,
-
       //reportState
       reportID: this.props.route.params.repId,
       reporterName: this.props.route.params.reportersName,
@@ -51,6 +44,25 @@ export default class EditProfileScreen extends Component {
       reporterInjured: this.props.route.params.reportedInj,
       reportDesc: this.props.route.params.reportDescription,
       reportDnT: this.props.route.params.dateAndTime,
+
+      //states to be sent to php
+      responderName: "",
+      responderVehicle: "",
+      responderDT: "",
+      responderAT: "",
+      responderRT: "",
+      responderUCT: "",
+      responderIncDistance: "",
+      responderLocDesc: "",
+      responderCInjured: "",
+      responderCDeaths: "",
+      responderRInjured: "",
+      responderRDeaths: "",
+      responderEq: "",
+      responderProb: "",
+      responderDescOfEvents: "",
+      responderCoI: "",
+      responderAction: "",
     };
   }
 
@@ -118,79 +130,156 @@ export default class EditProfileScreen extends Component {
             </View>
             <Text style={styles.reportHeader}>Report Information</Text>
             <View style={styles.reportForm}>
-            
-                <Text style={styles.reportText}>Responder</Text>
-                <TextInput 
+              <Text style={styles.reportText}>Responder</Text>
+              <TextInput
                 style={styles.reportTextInput}
                 value={this.state.firstName + " " + this.state.lastName}
-                editable={false}></TextInput>
-                <Text style={styles.reportText}>Vehicle Used</Text>
-                <TextInput
+                editable={false}
+                onChangeText={(data) => this.setState({ responderName: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Vehicle Used</Text>
+              <TextInput
                 style={styles.reportTextInput}
-                placeholder={"Vehicle and Number ex. Ambulance 12"}></TextInput>
+                placeholder={"Vehicle and Number ex. Ambulance 12"}
+                onChangeText={(data) =>
+                  this.setState({ responderVehicle: data })
+                }
+              ></TextInput>
 
-                <Text style={styles.reportHeader}>Response Time</Text>
-                <Text style={styles.reportText}>Time on Dispatch</Text>
-                <TextInput 
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Time on Arrival on Scene</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Time on Return to Base</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Time on Incident Under Control</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-
-                <Text style={styles.reportHeader}>Incident Description</Text>
-                <Text style={styles.reportText}>Distance from Base</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Description of Incident Location</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportSubHeader}>Civilian Casualties</Text>
-                <Text style={styles.reportText}>Injured</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Deaths</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportSubHeader}>Responder Casualties</Text>
-                <Text style={styles.reportText}>Injured</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-                <Text style={styles.reportText}>Deaths</Text>
-                <TextInput
-                style={styles.reportTextInput}></TextInput>
-
-                <Text style={styles.reportHeader}>Actions Made</Text>
-                <Text style={styles.reportText}>Equipment Used</Text>
-                <TextInput
+              <Text>{"\n"}</Text>
+              <Text style={styles.reportHeader}>Response Time</Text>
+              <Text style={styles.reportText}>Time on Dispatch</Text>
+              <TextInput
                 style={styles.reportTextInput}
-                multiline></TextInput>
-                <Text style={styles.reportText}>Problems Encountered</Text>
-                <TextInput
+                onChangeText={(data) => this.setState({ responderDT: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Time on Arrival on Scene</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                onChangeText={(data) => this.setState({ responderAT: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Time on Return to Base</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                onChangeText={(data) => this.setState({ responderRT: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>
+                Time on Incident Under Control
+              </Text>
+              <TextInput
+                style={styles.reportTextInput}
+                onChangeText={(data) => this.setState({ responderUCT: data })}
+              ></TextInput>
+
+              <Text>{"\n"}</Text>
+              <Text style={styles.reportHeader}>Incident Description</Text>
+              <Text style={styles.reportText}>
+                Approximate Distance from Base(km)
+              </Text>
+              <TextInput
+                style={styles.reportTextInput}
+                keyboardType={"numeric"}
+                onChangeText={(data) =>
+                  this.setState({ responderIncDistance: data })
+                }
+              ></TextInput>
+              <Text style={styles.reportText}>
+                Description of Incident and Location
+              </Text>
+              <TextInput
+                style={styles.reportTextInput}
+                placeholder={"ex. Fire in Appartment Complex"}
+                onChangeText={(data) =>
+                  this.setState({ responderLocDesc: data })
+                }
+              ></TextInput>
+              <Text>{"\n"}</Text>
+              <Text style={styles.reportSubHeader}>Civilian Casualties</Text>
+              <Text style={styles.reportText}>Injured</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                keyboardType={"numeric"}
+                onChangeText={(data) =>
+                  this.setState({ responderCInjured: data })
+                }
+              ></TextInput>
+              <Text style={styles.reportText}>Deaths</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                keyboardType={"numeric"}
+                onChangeText={(data) =>
+                  this.setState({ responderCDeaths: data })
+                }
+              ></TextInput>
+              <Text>{"\n"}</Text>
+              <Text style={styles.reportSubHeader}>Responder Casualties</Text>
+              <Text style={styles.reportText}>Injured</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                keyboardType={"numeric"}
+                onChangeText={(data) =>
+                  this.setState({ responderRInjured: data })
+                }
+              ></TextInput>
+              <Text style={styles.reportText}>Deaths</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                keyboardType={"numeric"}
+                onChangeText={(data) =>
+                  this.setState({ responderRDeaths: data })
+                }
+              ></TextInput>
+
+              <Text>{"\n"}</Text>
+              <Text style={styles.reportHeader}>Actions Made</Text>
+              <Text style={styles.reportText}>Equipment Used</Text>
+              <TextInput
                 style={styles.reportTextInput}
                 multiline
-                numberOfLines={5}></TextInput>
-                <Text style={styles.reportText}>Description of Events</Text>
-                <TextInput
+                onChangeText={(data) => this.setState({ responderEq: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Problems Encountered</Text>
+              <TextInput
                 style={styles.reportTextInput}
                 multiline
-                numberOfLines={5}></TextInput>
-                <Text style={styles.reportText}>Cause of Incident</Text>
-                <TextInput
+                numberOfLines={5}
+                placeholder={
+                  "ex.\n1.more injured than reported \n2.fire damaged nearby houses"
+                }
+                onChangeText={(data) => this.setState({ responderProb: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Description of Events</Text>
+              <TextInput
                 style={styles.reportTextInput}
                 multiline
-                numberOfLines={5}></TextInput>
-                <Text style={styles.reportText}>Actions Taken</Text>
-                <TextInput
+                numberOfLines={5}
+                placeholder={
+                  "ex.gas leak combustion due to smokers in close proximity"
+                }
+                onChangeText={(data) =>
+                  this.setState({ responderDescOfEvents: data })
+                }
+              ></TextInput>
+              <Text style={styles.reportText}>Cause of Incident</Text>
+              <TextInput
                 style={styles.reportTextInput}
                 multiline
-                numberOfLines={5}></TextInput>
-
+                numberOfLines={2}
+                placeholder={"ex.Gas leak"}
+                onChangeText={(data) => this.setState({ responderCoI: data })}
+              ></TextInput>
+              <Text style={styles.reportText}>Actions Taken</Text>
+              <TextInput
+                style={styles.reportTextInput}
+                multiline
+                numberOfLines={5}
+                placeholder={
+                  "ex.\n1. gave first aid to injured \n2. sent injured to hospital"
+                }
+                onChangeText={(data) =>
+                  this.setState({ responderAction: data })
+                }
+              ></TextInput>
             </View>
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback style={styles.buttonCancel}>
@@ -220,62 +309,60 @@ export default class EditProfileScreen extends Component {
                 ></Button>
               </TouchableWithoutFeedback>
 
-              {/* <TouchableWithoutFeedback style={styles.buttonUpdate}>
+              <TouchableWithoutFeedback style={styles.buttonComplete}>
                 <Button
                   title="Create"
                   color="#87c830"
                   onPress={() => {
-                    fetch("https://alert-qc.com/mobile/createResponderReport.php", {
-                      method: "POST",
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        //send incident report data
-                        phpRID: this.state.repoID,
-                        phpFname: this.state.newFirstName,
-                        phpMname: this.state.newMiddleName,
-                        phpLname: this.state.newLastName,
-                        phpCPnum: this.state.newContactNumber,
-                        phpEadd: this.state.newEmailAddress,
-                        phpRadd: this.state.newResponderAddress,
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((responseJson) => {
-                        // If the Data matched.
-                        if (responseJson === "Updated!") {
-                          Alert.alert(
-                            responseJson + "",
-                            "Do you wish to continue making changes?",
-                            [
-                              {
-                                text: "Yes",
-                                style: "cancel",
-                              },
-                              {
-                                text: "No",
-                                onPress: () => {
-                                  this.props.navigation.goBack(null);
-                                },
-                              },
-                            ]
-                          );
-                        } else {
-                          Alert.alert(responseJson);
-                        }
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                      });
+                    // fetch("https://alert-qc.com/mobile/createResponderReport.php", {
+                    //   method: "POST",
+                    //   headers: {
+                    //     Accept: "application/json",
+                    //     "Content-Type": "application/json",
+                    //   },
+                    //   body: JSON.stringify({
+                    //     //send incident report data
+                    //     phpRID: this.state.repoID,
+                    //     phpName: this.state.FirstName + this.state.LastName,
 
-                    console.log(this.state.repoID);
+                    //     //send incident responder report data
+                    //     phpresponderName: this.state.responderName,
+                    //     phpresponderVehicle: this.state.responderVehicle,
+                    //     phpresponderDT: this.state.responderDT,
+                    //     phpresponderAT: this.state.responderAT,
+                    //     phpresponderRT: this.state.responderRT,
+                    //     phpresponderUCT: this.state.responderUCT,
+                    //     phpresponderIncDistance: this.state.responderIncDistance,
+                    //     phpresponderLocDesc: this.state.responderLocDesc,
+                    //     phpresponderCInjured: this.state.responderCInjured,
+                    //     phpresponderCDeaths: this.state.responderCDeaths,
+                    //     phpresponderRInjured: this.state.responderRInjured,
+                    //     phpresponderRDeaths: this.state.responderRDeaths,
+                    //     phpresponderEq: this.state.responderEq,
+                    //     phpresponderProb: this.state.responderProb,
+                    //     phpresponderDescOfEvents: this.state.responderDescOfEvents,
+                    //     phpresponderCoI: this.state.responderCoI,
+                    //     phpresponderAction: this.state.responderAction,
+                    //   }),
+                    // })
+                    //   .then((response) => response.json())
+                    //   .then((responseJson) => {
+                    //     // If the Data matched.
+                    //     if (responseJson === "Updated!") {
+                    //     } else {
+                    //       Alert.alert(responseJson);
+                    //     }
+                    //   })
+                    //   .catch((err) => {
+                    //     console.error(err);
+                    //   });
+
+                    console.log(this.state.responderVehicle);
                   }}
                 >
-                  <Text>Update</Text>
+                  <Text>Create Report</Text>
                 </Button>
-              </TouchableWithoutFeedback> */}
+              </TouchableWithoutFeedback>
             </View>
           </View>
         </ScrollView>
@@ -313,24 +400,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: Dimensions.get("screen").width * 0.436,
   },
-  buttonComplete: {
-    textAlign: "center",
-    justifyContent: "center",
-    width: Dimensions.get("screen").width * 0.87,
-    paddingTop: 10,
-    paddingRight: 10,
-  },
-  buttonMap: {
-    textAlign: "center",
-    justifyContent: "center",
-    width: Dimensions.get("screen").width * 0.436,
-    paddingRight: 10,
-  },
-  buttonCall: {
-    textAlign: "center",
-    justifyContent: "center",
-    width: Dimensions.get("screen").width * 0.436,
-  },
   statusCheck: {
     width: Dimensions.get("screen").width,
     backgroundColor: "#660000",
@@ -340,9 +409,8 @@ const styles = StyleSheet.create({
     padding: -5,
   },
   repCard: {
-    
     padding: 25,
-    width: Dimensions.get("screen").width * .95,
+    width: Dimensions.get("screen").width * 0.95,
     borderWidth: 1,
   },
   nameHead: {
@@ -367,16 +435,25 @@ const styles = StyleSheet.create({
   reportForm: {
     padding: 10,
     color: "#000",
-
   },
   reportText: {
     color: "#000",
-    fontSize: 20
+    fontSize: 20,
   },
   reportTextInput: {
     color: "#000",
     fontSize: 20,
     backgroundColor: "#DCDCDC",
-  }
-
+  },
+  buttonContainer: {
+    padding: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  buttonCancel: {
+    width: Dimensions.get("screen").width * 0.45,
+  },
+  buttonComplete: {
+    width: Dimensions.get("screen").width * 0.45,
+  },
 });

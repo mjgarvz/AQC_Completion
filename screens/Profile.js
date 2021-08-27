@@ -202,28 +202,13 @@ export default class ProfileScreen extends React.Component {
               {"\n" + name + "\n"}
             </TextInput>
             <Text style={styles.accHead}>Department:</Text>
-            <TextInput editable={false}>{item.department + "\n"}</TextInput>
+            <TextInput editable={false}>{"\n" + item.department + "\n"}</TextInput>
             <Text style={styles.accHead}>Team: </Text>
-            <TextInput editable={false}>{item.team + "\n"}</TextInput>
-
-            <TouchableOpacity>
-              <Button
-                title="Edit Profile"
-                onPress={() => {
-                  console.log(this.state.respoUID);
-                  this.props.navigation.navigate("EditProfile", {
-                    rID: this.state.respoUID,
-                    fname: this.state.firstName,
-                    mname: this.state.middleName,
-                    lname: this.state.lastName,
-                    contactNum: this.state.conNum,
-                    //team and dept
-                    emailAddress: this.state.emailAdd,
-                    respoderAddress: this.state.respoAdd,
-                  });
-                }}
-              />
-            </TouchableOpacity>
+            <TextInput editable={false}>{"\n" + item.team + "\n"}</TextInput>
+            <Text style={styles.accHead}>Contact: </Text>
+            <TextInput editable={false}>{"\n" + item.contact + "\n"}</TextInput>
+            <Text style={styles.accHead}>Team: </Text>
+            <TextInput editable={false}>{"\n" + item.email + "\n"}</TextInput>
             <Text style={styles.accHead}>
               {"\n"}Status:{"\n"}
             </Text>
@@ -290,6 +275,44 @@ export default class ProfileScreen extends React.Component {
               />
             </TouchableOpacity>
           </Text>
+          <TouchableOpacity style={styles.buttonEdit}>
+              <Button
+              color="#FF8000"
+                title="Edit Profile"
+                onPress={() => {
+                  console.log(this.state.respoUID);
+                  this.props.navigation.navigate("EditProfile", {
+                    rID: this.state.respoUID,
+                    fname: this.state.firstName,
+                    mname: this.state.middleName,
+                    lname: this.state.lastName,
+                    contactNum: this.state.conNum,
+                    //team and dept
+                    emailAddress: this.state.emailAdd,
+                    respoderAddress: this.state.respoAdd,
+                  });
+                }}
+              />
+            </TouchableOpacity >
+            <TouchableOpacity style={styles.buttonReports}>
+              <Button
+              color="#FF8000"
+                title="Reports Completed"
+                onPress={() => {
+                  console.log(this.state.respoUID);
+                  this.props.navigation.navigate("EditProfile", {
+                    rID: this.state.respoUID,
+                    fname: this.state.firstName,
+                    mname: this.state.middleName,
+                    lname: this.state.lastName,
+                    contactNum: this.state.conNum,
+                    //team and dept
+                    emailAddress: this.state.emailAdd,
+                    respoderAddress: this.state.respoAdd,
+                  });
+                }}
+              />
+            </TouchableOpacity>
         </View>
       );
     } else {
@@ -395,5 +418,12 @@ const styles = StyleSheet.create({
   },
   nameHead: {
     fontSize: 24,
+  },
+  buttonEdit: {
+    paddingTop: 10,
+  },
+  buttonReports: {
+    paddingTop: 10,
+
   },
 });
