@@ -10,6 +10,8 @@ import ProfileScreen from "./Profile";
 import EditProfileScreen from "./EditProfileScreen";
 import ActiveIncidentScreen from "./ActiveIncidentScreen";
 import CompleteReportScreen from "./CompleteReportScreen";
+import CompletedReportsScreen from "./CompletedReportsScreen";
+import EquipmentRequestScreen from "./EquipmentRequestScreen";
 
 //landing
 import CreateChatScreen from "./CreateChatScreen";
@@ -245,6 +247,70 @@ const ProfileStackScreen = ({ navigation }) => (
       component={EditProfileScreen}
       options={{
         title: "Edit Profile",
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <CallButton
+            onPress={() => {
+              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
+                { text: "Cancel", style: "cancel" },
+                {
+                  text: "Log Out",
+                  onPress: () => {
+                    {
+                      AsyncStorage.clear();
+                      navigation.popToTop();
+                    }
+                  },
+                },
+              ]);
+            }}
+          >
+            <SimpleLineIcons
+              name="logout"
+              size={24}
+              color="black"
+            ></SimpleLineIcons>
+          </CallButton>
+        ),
+      }}
+    />
+    <ProfileStack.Screen
+      name="ReportsCompleted"
+      component={CompletedReportsScreen}
+      options={{
+        title: "Reports Completed",
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <CallButton
+            onPress={() => {
+              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
+                { text: "Cancel", style: "cancel" },
+                {
+                  text: "Log Out",
+                  onPress: () => {
+                    {
+                      AsyncStorage.clear();
+                      navigation.popToTop();
+                    }
+                  },
+                },
+              ]);
+            }}
+          >
+            <SimpleLineIcons
+              name="logout"
+              size={24}
+              color="black"
+            ></SimpleLineIcons>
+          </CallButton>
+        ),
+      }}
+    />
+    <ProfileStack.Screen
+      name="EquipmentRequest"
+      component={EquipmentRequestScreen}
+      options={{
+        title: "Equipment Request",
         headerTitleAlign: "center",
         headerLeft: () => (
           <CallButton

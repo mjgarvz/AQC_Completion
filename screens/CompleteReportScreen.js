@@ -14,6 +14,7 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker"
 
 //landing
 
@@ -34,7 +35,7 @@ export default class EditProfileScreen extends Component {
       emailAdd: this.props.route.params.emailAddress,
       respoAdd: this.props.route.params.respoderAddress,
 
-      //reportState
+      //reportState to be sent to php
       reportID: this.props.route.params.repId,
       reporterName: this.props.route.params.reportersName,
       reporterContact: this.props.route.params.reportersCont,
@@ -63,10 +64,16 @@ export default class EditProfileScreen extends Component {
       responderDescOfEvents: "",
       responderCoI: "",
       responderAction: "",
+
+      //vars
     };
+      
   }
+  
 
   render() {
+    this.state.responderName = this.state.firstName + " " + this.state.lastName
+
     let { dataSource, isLoading } = this.state;
     if (isLoading) {
       <View></View>;
@@ -135,7 +142,6 @@ export default class EditProfileScreen extends Component {
                 style={styles.reportTextInput}
                 value={this.state.firstName + " " + this.state.lastName}
                 editable={false}
-                onChangeText={(data) => this.setState({ responderName: data })}
               ></TextInput>
               <Text style={styles.reportText}>Vehicle Used</Text>
               <TextInput
@@ -153,6 +159,9 @@ export default class EditProfileScreen extends Component {
                 style={styles.reportTextInput}
                 onChangeText={(data) => this.setState({ responderDT: data })}
               ></TextInput>
+{/*start test*/}
+              
+{/*start test*/}
               <Text style={styles.reportText}>Time on Arrival on Scene</Text>
               <TextInput
                 style={styles.reportTextInput}
@@ -323,7 +332,14 @@ export default class EditProfileScreen extends Component {
                     //   body: JSON.stringify({
                     //     //send incident report data
                     //     phpRID: this.state.repoID,
-                    //     phpName: this.state.FirstName + this.state.LastName,
+                    //     phpName: this.state.reporterName,
+                    //     phpreporterContact: this.state.reporterContact,
+                    //     phpreporterBarangay: this.state.reporterBarangay,
+                    //     phpreporterLocation: this.state.reporterLocation,
+                    //     phpreporterIncident: this.state.reporterIncident,
+                    //     phpreporterInjured: this.state.reporterInjured,
+                    //     phpreportDesc: this.state.reportDesc,
+                    //     phpreportDnT: this.state.reportDnT,
 
                     //     //send incident responder report data
                     //     phpresponderName: this.state.responderName,
@@ -356,8 +372,34 @@ export default class EditProfileScreen extends Component {
                     //   .catch((err) => {
                     //     console.error(err);
                     //   });
-
+                    console.log("Source Report");
+                    console.log(this.state.repoID);
+                    console.log(this.state.reporterName);
+                    console.log(this.state.reporterContact);
+                    console.log(this.state.reporterBarangay);
+                    console.log(this.state.reporterLocation);
+                    console.log(this.state.reporterIncident);
+                    console.log(this.state.reporterInjured);
+                    console.log(this.state.reportDesc);
+                    console.log(this.state.reportDnT);
+                    console.log("Responder Report")
+                    console.log(this.state.responderName);
                     console.log(this.state.responderVehicle);
+                    console.log(this.state.responderDT);
+                    console.log(this.state.responderAT);
+                    console.log(this.state.responderRT);
+                    console.log(this.state.responderUCT);
+                    console.log(this.state.responderIncDistance);
+                    console.log(this.state.responderLocDesc);
+                    console.log(this.state.responderCInjured);
+                    console.log(this.state.responderCDeaths);
+                    console.log(this.state.responderRInjured);
+                    console.log(this.state.responderRDeaths);
+                    console.log(this.state.responderEq);
+                    console.log(this.state.responderProb);
+                    console.log(this.state.responderDescOfEvents);
+                    console.log(this.state.responderCoI);
+                    console.log(this.state.responderAction);
                   }}
                 >
                   <Text>Create Report</Text>

@@ -42,7 +42,7 @@ export default class ProfileScreen extends React.Component {
   _emptyList = () => {
     return (
       <View>
-        <Text>No Reports For Now</Text>
+        <Text></Text>
       </View>
     );
   };
@@ -207,7 +207,7 @@ export default class ProfileScreen extends React.Component {
             <TextInput editable={false}>{"\n" + item.team + "\n"}</TextInput>
             <Text style={styles.accHead}>Contact: </Text>
             <TextInput editable={false}>{"\n" + item.contact + "\n"}</TextInput>
-            <Text style={styles.accHead}>Team: </Text>
+            <Text style={styles.accHead}>Email: </Text>
             <TextInput editable={false}>{"\n" + item.email + "\n"}</TextInput>
             <Text style={styles.accHead}>
               {"\n"}Status:{"\n"}
@@ -300,7 +300,26 @@ export default class ProfileScreen extends React.Component {
                 title="Reports Completed"
                 onPress={() => {
                   console.log(this.state.respoUID);
-                  this.props.navigation.navigate("EditProfile", {
+                  this.props.navigation.navigate("ReportsCompleted", {
+                    rID: this.state.respoUID,
+                    fname: this.state.firstName,
+                    mname: this.state.middleName,
+                    lname: this.state.lastName,
+                    contactNum: this.state.conNum,
+                    //team and dept
+                    emailAddress: this.state.emailAdd,
+                    respoderAddress: this.state.respoAdd,
+                  });
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonReports}>
+              <Button
+              color="#FF8000"
+                title="Equipment Request"
+                onPress={() => {
+                  console.log(this.state.respoUID);
+                  this.props.navigation.navigate("EquipmentRequest", {
                     rID: this.state.respoUID,
                     fname: this.state.firstName,
                     mname: this.state.middleName,
