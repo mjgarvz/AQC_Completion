@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
+import { useState } from "react";
 import { Dimensions } from "react-native";
 import {
   View,
@@ -14,11 +15,13 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker"
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+import CallPicker from "./CallPicker";
 
 //landing
 
-export default class EditProfileScreen extends Component {
+export default class CompleteReportScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,18 +69,18 @@ export default class EditProfileScreen extends Component {
       responderAction: "",
 
       //vars
+      isDatePickerVisible: false,
+      setDatePickerVisibility: false,
     };
       
   }
+
+  
   
 
   render() {
     this.state.responderName = this.state.firstName + " " + this.state.lastName
 
-    let { dataSource, isLoading } = this.state;
-    if (isLoading) {
-      <View></View>;
-    }
     return (
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView>
@@ -160,7 +163,6 @@ export default class EditProfileScreen extends Component {
                 onChangeText={(data) => this.setState({ responderDT: data })}
               ></TextInput>
 {/*start test*/}
-              
 {/*start test*/}
               <Text style={styles.reportText}>Time on Arrival on Scene</Text>
               <TextInput
@@ -323,57 +325,72 @@ export default class EditProfileScreen extends Component {
                   title="Create"
                   color="#87c830"
                   onPress={() => {
-                    // fetch("https://alert-qc.com/mobile/createResponderReport.php", {
-                    //   method: "POST",
-                    //   headers: {
-                    //     Accept: "application/json",
-                    //     "Content-Type": "application/json",
-                    //   },
-                    //   body: JSON.stringify({
-                    //     //send incident report data
-                    //     phpRID: this.state.repoID,
-                    //     phpName: this.state.reporterName,
-                    //     phpreporterContact: this.state.reporterContact,
-                    //     phpreporterBarangay: this.state.reporterBarangay,
-                    //     phpreporterLocation: this.state.reporterLocation,
-                    //     phpreporterIncident: this.state.reporterIncident,
-                    //     phpreporterInjured: this.state.reporterInjured,
-                    //     phpreportDesc: this.state.reportDesc,
-                    //     phpreportDnT: this.state.reportDnT,
+                    fetch("https://alert-qc.com/mobile/createResponderReport.php", {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        //send incident report data
+                        phpRID: this.state.reportID,
+                        phpName: this.state.reporterName,
+                        phpreporterContact: this.state.reporterContact,
+                        phpreporterBarangay: this.state.reporterBarangay,
+                        phpreporterLocation: this.state.reporterLocation,
+                        phpreporterIncident: this.state.reporterIncident,
+                        phpreporterInjured: this.state.reporterInjured,
+                        phpreportDesc: this.state.reportDesc,
+                        phpreportDnT: this.state.reportDnT,
 
-                    //     //send incident responder report data
-                    //     phpresponderName: this.state.responderName,
-                    //     phpresponderVehicle: this.state.responderVehicle,
-                    //     phpresponderDT: this.state.responderDT,
-                    //     phpresponderAT: this.state.responderAT,
-                    //     phpresponderRT: this.state.responderRT,
-                    //     phpresponderUCT: this.state.responderUCT,
-                    //     phpresponderIncDistance: this.state.responderIncDistance,
-                    //     phpresponderLocDesc: this.state.responderLocDesc,
-                    //     phpresponderCInjured: this.state.responderCInjured,
-                    //     phpresponderCDeaths: this.state.responderCDeaths,
-                    //     phpresponderRInjured: this.state.responderRInjured,
-                    //     phpresponderRDeaths: this.state.responderRDeaths,
-                    //     phpresponderEq: this.state.responderEq,
-                    //     phpresponderProb: this.state.responderProb,
-                    //     phpresponderDescOfEvents: this.state.responderDescOfEvents,
-                    //     phpresponderCoI: this.state.responderCoI,
-                    //     phpresponderAction: this.state.responderAction,
-                    //   }),
-                    // })
-                    //   .then((response) => response.json())
-                    //   .then((responseJson) => {
-                    //     // If the Data matched.
-                    //     if (responseJson === "Updated!") {
-                    //     } else {
-                    //       Alert.alert(responseJson);
-                    //     }
-                    //   })
-                    //   .catch((err) => {
-                    //     console.error(err);
-                    //   });
+                        //send incident responder report data
+                        phpresponderID: this.state.rId,
+                        phpresponderName: this.state.responderName,
+                        phpresponderVehicle: this.state.responderVehicle,
+                        phpresponderDT: this.state.responderDT,
+                        phpresponderAT: this.state.responderAT,
+                        phpresponderRT: this.state.responderRT,
+                        phpresponderUCT: this.state.responderUCT,
+                        phpresponderIncDistance: this.state.responderIncDistance,
+                        phpresponderLocDesc: this.state.responderLocDesc,
+                        phpresponderCInjured: this.state.responderCInjured,
+                        phpresponderCDeaths: this.state.responderCDeaths,
+                        phpresponderRInjured: this.state.responderRInjured,
+                        phpresponderRDeaths: this.state.responderRDeaths,
+                        phpresponderEq: this.state.responderEq,
+                        phpresponderProb: this.state.responderProb,
+                        phpresponderDescOfEvents: this.state.responderDescOfEvents,
+                        phpresponderCoI: this.state.responderCoI,
+                        phpresponderAction: this.state.responderAction,
+                      }),
+                    })
+                      .then((response) => response.json())
+                      .then((responseJson) => {
+                        // If the Data matched.
+                        if (responseJson === "Report Submitted") {
+                          Alert.alert(
+                            responseJson + "",
+                            "Report will now be sent for review",
+                            [
+                              {
+                                text: "OK",
+                                onPress: () => {
+                                  this.props.navigation.goBack(null);
+                                },
+                              },
+                            ]
+                          );
+                        } else if(responseJson === "Please Fill up all Fields"){
+                          Alert.alert(responseJson);
+                        }else {
+                          Alert.alert(responseJson);
+                        }
+                      })
+                      .catch((err) => {
+                        console.error(err);
+                      });
                     console.log("Source Report");
-                    console.log(this.state.repoID);
+                    console.log(this.state.reportID);
                     console.log(this.state.reporterName);
                     console.log(this.state.reporterContact);
                     console.log(this.state.reporterBarangay);
@@ -383,6 +400,7 @@ export default class EditProfileScreen extends Component {
                     console.log(this.state.reportDesc);
                     console.log(this.state.reportDnT);
                     console.log("Responder Report")
+                    console.log(this.state.repoID);
                     console.log(this.state.responderName);
                     console.log(this.state.responderVehicle);
                     console.log(this.state.responderDT);
@@ -412,6 +430,7 @@ export default class EditProfileScreen extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {},

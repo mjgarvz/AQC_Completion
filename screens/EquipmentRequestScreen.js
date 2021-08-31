@@ -1,218 +1,161 @@
-import * as React from "react";
-import { Component } from "react";
-import { Dimensions } from "react-native";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Button,
-  StyleSheet,
-  FlatList,
-  TextInput,
-  Alert,
-} from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { KeyboardAvoidingView } from "react-native";
-import { ScrollView } from "react-native";
+import React, { Component } from 'react';
+import { Dimensions } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-//landing
 
-export default class EditProfileScreen extends Component {
-  constructor(props) {
+class EquipmentRequestScreen extends Component {
+
+  constructor(props){
     super(props);
     this.state = {
-      isLoading: true,
-      dataSource: [],
-      Email: "",
-      status: "",
-      repoID: this.props.route.params.rID,
-      //responderStates
-      firstName: this.props.route.params.fname,
-      middleName: this.props.route.params.mname,
-      lastName: this.props.route.params.lname,
-      conNum: this.props.route.params.contactNum,
-      emailAdd: this.props.route.params.emailAddress,
-      respoAdd: this.props.route.params.respoderAddress,
-
-      newFirstName: this.props.route.params.fname,
-      newMiddleName: this.props.route.params.mname,
-      newLastName: this.props.route.params.lname,
-      newContactNumber: this.props.route.params.contactNum,
-      newEmailAddress: this.props.route.params.emailAddress,
-      newResponderAddress: this.props.route.params.respoderAddress,
-    };
+      textInput : [],
+      inputData : [],
+    }
   }
 
-  render() {
-    let { dataSource, isLoading } = this.state;
-    if (isLoading) {
-      <View></View>;
+  //function to add TextInput dynamically
+  addTextInput = (index) => {
+    let textInput = this.state.textInput;
+    textInput.push(
+    <View>
+      <TextInput style={styles.textInput}
+      placeholder={"Equipment"}
+      onChangeText={(text) => this.addValues(text,index)} />
+      <TextInput style={styles.textInput2}
+      placeholder={"Quantity"}
+      onChangeText={(qty) => this.addValues2(qty,index)} />
+    </View>);
+    this.setState({ textInput });
+  }
+
+  //function to remove TextInput dynamically
+  removeTextInput = () => {
+    let textInput = this.state.textInput;
+    let inputData = this.state.inputData;
+    textInput.pop();
+    inputData.pop();
+    this.setState({ textInput,inputData });
+  }
+
+  //function to add text from TextInputs into single array
+  addValues = (text, index) => {
+    let dataArray = this.state.inputData;
+    let checkBool = false;
+    if (dataArray.length !== 0){
+      dataArray.forEach(element => {
+        if (element.index === index ){
+          element.text = text;
+          checkBool = true;
+        }
+        
+      });
     }
-    return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView>
-          <View style={styles.mainContainer}>
-            <Text>
-              <View>
-                <Text style={styles.headerText}>First Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.firstName}
-                  onChangeText={(data) => this.setState({ newFirstName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Middle Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.middleName}
-                  onChangeText={(data) =>
-                    this.setState({ newMiddleName: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Last Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.lastName}
-                  onChangeText={(data) => this.setState({ newLastName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Contact:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.conNum}
-                  onChangeText={(data) =>
-                    this.setState({ newContactNumber: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Team:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.emailAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newEmailAddress: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Department:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.respoAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newResponderAddress: data })
-                  }
-                ></TextInput>
-              </View>
-            </Text>
-            <View style={styles.buttonContainer}>
-              <TouchableWithoutFeedback style={styles.buttonCancel}>
-                <Button
-                  color="#ff8000"
-                  title="Cancel"
-                  onPress={() => {
-                    Alert.alert(
-                      "Cancel?",
-                      "Canceling will discard all changes made",
-                      [
-                        {
-                          text: "Cancel",
-                          style: "cancel",
-                        },
-                        {
-                          text: "Discard",
-                          onPress: () => {
-                            this.props.navigation.goBack(null);
-                          },
-                        },
-                      ]
-                    );
+    if (checkBool){
+    this.setState({
+      inputData: dataArray
+    });
+  }
+  else {
+    dataArray.push({'text':text,'index':index});
+    this.setState({
+      inputData: dataArray
+    });
+  }
+  }
+  
+  addValues2 = (qty, index) => {
+    let dataArray = this.state.inputData;
+    let checkBool = false;
+    if (dataArray.length !== 0){
+      dataArray.forEach(element => {
+        if (element.index === index ){
+          element.qty = qty;
+          checkBool = true;
+        }
+        
+      });
+    }
+    if (checkBool){
+    this.setState({
+      inputData: dataArray
+    });
+  }
+  else {
+    dataArray.push({'qty':qty,'index':index});
+    this.setState({
+      inputData: dataArray
+    });
+  }
+  }
 
-                    console.log("discard");
-                  }}
-                ></Button>
-              </TouchableWithoutFeedback>
+  //function to console the output
+  getValues = () => {
+    console.log('Data',this.state.inputData);
+  }
 
-              <TouchableWithoutFeedback style={styles.buttonUpdate}>
-                <Button
-                  title="update"
-                  color="#87c830"
-                  onPress={() => {
-                    fetch("https://alert-qc.com/mobile/updateRespoUser.php", {
-                      method: "POST",
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        phpRID: this.state.repoID,
-                        phpFname: this.state.newFirstName,
-                        phpMname: this.state.newMiddleName,
-                        phpLname: this.state.newLastName,
-                        phpCPnum: this.state.newContactNumber,
-                        phpEadd: this.state.newEmailAddress,
-                        phpRadd: this.state.newResponderAddress,
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((responseJson) => {
-                        // If the Data matched.
-                        if (responseJson === "Updated!") {
-                          Alert.alert(
-                            responseJson + "",
-                            "Do you wish to continue making changes?",
-                            [
-                              {
-                                text: "Yes",
-                                style: "cancel",
-                              },
-                              {
-                                text: "No",
-                                onPress: () => {
-                                  this.props.navigation.goBack(null);
-                                },
-                              },
-                            ]
-                          );
-                        } else {
-                          Alert.alert(responseJson);
-                        }
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                      });
 
-                    console.log(this.state.repoID);
-                  }}
-                >
-                  <Text>Update</Text>
-                </Button>
-              </TouchableWithoutFeedback>
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    );
+  render(){
+    return(
+      <View>
+        <View style= {styles.row}>
+          <View style={{margin: 10}}>
+        <Button title='Add' onPress={() => this.addTextInput(this.state.textInput.length)} />
+        </View>
+        <View style={{margin: 10}}>
+        <Button title='Remove' onPress={() => this.removeTextInput()} />
+        </View>
+        </View>
+        {this.state.textInput.map((value) => {
+          return value
+        })}
+        <View style={styles.buttonValue}>
+        <Button  title='View Request' onPress={() => this.getValues()} />
+        </View>
+        
+      </View>
+    )
   }
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    padding: 15,
-  },
-  buttonContainer: {
-    paddingTop: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
-  },
-  buttonCancel: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  buttonUpdate: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  headerText: {
-    fontSize: 20,
-    color: "black",
-  },
-  inputTextF: {
-    width: Dimensions.get("screen").width,
-    borderBottomWidth: 1,
-    borderColor: "#ff8000",
-  },
+container: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',
+},
+buttonView: {
+  flexDirection: 'row'
+},
+  textInput: {
+  height: 40,
+  borderColor: 'black', 
+  borderWidth: 1,
+  margin: 20,
+  marginBottom: 0,
+},
+textInput2: {
+  height: 40,
+  borderColor: 'black', 
+  borderWidth: 1,
+  marginTop: 5,
+  marginLeft: 20,
+  marginBottom: 20,
+  width: Dimensions.get("screen").width * 0.20,
+},
+buttonValue: {
+  margin: 20,
+},
+row:{
+  flexDirection: 'row',
+  justifyContent: 'center'
+},
+texteq:{
+  textAlign:'left'
+},
+textqty: {
+  textAlign:'right'
+}
 });
+
+export default EquipmentRequestScreen;

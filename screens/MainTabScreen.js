@@ -169,30 +169,7 @@ const ActiveStackScreen = ({ navigation }) => (
       options={{
         title: "Complete Report",
         headerTitleAlign: "center",
-        headerLeft: () => (
-          <CallButton
-            onPress={() => {
-              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
-                { text: "Cancel", style: "cancel" },
-                {
-                  text: "Log Out",
-                  onPress: () => {
-                    {
-                      AsyncStorage.clear();
-                      navigation.popToTop();
-                    }
-                  },
-                },
-              ]);
-            }}
-          >
-            <SimpleLineIcons
-              name="logout"
-              size={24}
-              color="black"
-            ></SimpleLineIcons>
-          </CallButton>
-        ),
+        
       }}
     />
   </ActiveStack.Navigator>
@@ -248,30 +225,7 @@ const ProfileStackScreen = ({ navigation }) => (
       options={{
         title: "Edit Profile",
         headerTitleAlign: "center",
-        headerLeft: () => (
-          <CallButton
-            onPress={() => {
-              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
-                { text: "Cancel", style: "cancel" },
-                {
-                  text: "Log Out",
-                  onPress: () => {
-                    {
-                      AsyncStorage.clear();
-                      navigation.popToTop();
-                    }
-                  },
-                },
-              ]);
-            }}
-          >
-            <SimpleLineIcons
-              name="logout"
-              size={24}
-              color="black"
-            ></SimpleLineIcons>
-          </CallButton>
-        ),
+        
       }}
     />
     <ProfileStack.Screen
@@ -280,30 +234,7 @@ const ProfileStackScreen = ({ navigation }) => (
       options={{
         title: "Reports Completed",
         headerTitleAlign: "center",
-        headerLeft: () => (
-          <CallButton
-            onPress={() => {
-              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
-                { text: "Cancel", style: "cancel" },
-                {
-                  text: "Log Out",
-                  onPress: () => {
-                    {
-                      AsyncStorage.clear();
-                      navigation.popToTop();
-                    }
-                  },
-                },
-              ]);
-            }}
-          >
-            <SimpleLineIcons
-              name="logout"
-              size={24}
-              color="black"
-            ></SimpleLineIcons>
-          </CallButton>
-        ),
+        
       }}
     />
     <ProfileStack.Screen
@@ -312,30 +243,7 @@ const ProfileStackScreen = ({ navigation }) => (
       options={{
         title: "Equipment Request",
         headerTitleAlign: "center",
-        headerLeft: () => (
-          <CallButton
-            onPress={() => {
-              Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
-                { text: "Cancel", style: "cancel" },
-                {
-                  text: "Log Out",
-                  onPress: () => {
-                    {
-                      AsyncStorage.clear();
-                      navigation.popToTop();
-                    }
-                  },
-                },
-              ]);
-            }}
-          >
-            <SimpleLineIcons
-              name="logout"
-              size={24}
-              color="black"
-            ></SimpleLineIcons>
-          </CallButton>
-        ),
+        
       }}
     />
   </ProfileStack.Navigator>

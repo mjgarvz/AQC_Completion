@@ -42,6 +42,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-launch-navigator": "^1.0.8",
     "react-native-map-link": "^2.7.28",
+    "react-native-modal-datetime-picker": "^10.2.0",
     "react-native-navigation-directions": "^1.0.4",
     "react-native-open-map": "^3.0.2",
     "react-native-open-maps": "^0.3.6",

@@ -1,218 +1,266 @@
-import * as React from "react";
-import { Component } from "react";
-import { Dimensions } from "react-native";
+import React from "react";
 import {
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
   View,
   Text,
-  SafeAreaView,
-  Button,
-  StyleSheet,
-  FlatList,
-  TextInput,
+  Linking,
+  TouchableOpacity,
+  Clipboard,
+  ToastAndroid,
   Alert,
 } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { KeyboardAvoidingView } from "react-native";
-import { ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OpenMapDirections } from "react-native-navigation-directions";
+import { showLocation } from "react-native-map-link";
 
-//landing
-
-export default class EditProfileScreen extends Component {
+export default class IncidentScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       dataSource: [],
       Email: "",
-      status: "",
       repoID: this.props.route.params.rID,
-      //responderStates
-      firstName: this.props.route.params.fname,
-      middleName: this.props.route.params.mname,
-      lastName: this.props.route.params.lname,
-      conNum: this.props.route.params.contactNum,
-      emailAdd: this.props.route.params.emailAddress,
-      respoAdd: this.props.route.params.respoderAddress,
-
-      newFirstName: this.props.route.params.fname,
-      newMiddleName: this.props.route.params.mname,
-      newLastName: this.props.route.params.lname,
-      newContactNumber: this.props.route.params.contactNum,
-      newEmailAddress: this.props.route.params.emailAddress,
-      newResponderAddress: this.props.route.params.respoderAddress,
     };
+    setInterval(() => {
+      this._loadPage();
+    }, 5000);
+  }
+  //MAP NAV
+  _callShowDirections = () => {
+    const endPoint = {
+      longitude: 121.0493,
+      latitude: 14.6516,
+    };
+
+    console.log(endPoint);
+
+    const transportPlan = "d";
+
+    OpenMapDirections(null, endPoint, transportPlan).then((res) => {
+      console.log(res);
+    });
+  };
+  //load page
+  _loadPage() {
+    AsyncStorage.getItem("userEmail").then((data) => {
+      if (data) {
+        //If userEmail has data -> email
+        var uEmail = JSON.parse(data);
+        fetch("https://alert-qc.com/mobile/completedReportsList.php", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respo_email: uEmail,
+          }),
+        })
+          .then((response) => response.json())
+          .then((reseponseJson) => {
+            this.setState({
+              isLoading: false.valueOf,
+              dataSource: reseponseJson,
+            });
+          });
+      } else {
+        console.log("error");
+      }
+    });
   }
 
-  render() {
-    let { dataSource, isLoading } = this.state;
-    if (isLoading) {
-      <View></View>;
-    }
-    return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView>
-          <View style={styles.mainContainer}>
-            <Text>
-              <View>
-                <Text style={styles.headerText}>First Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.firstName}
-                  onChangeText={(data) => this.setState({ newFirstName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Middle Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.middleName}
-                  onChangeText={(data) =>
-                    this.setState({ newMiddleName: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Last Name:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.lastName}
-                  onChangeText={(data) => this.setState({ newLastName: data })}
-                ></TextInput>
-                <Text style={styles.headerText}>Contact:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.conNum}
-                  onChangeText={(data) =>
-                    this.setState({ newContactNumber: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Team:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.emailAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newEmailAddress: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Department:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.respoAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newResponderAddress: data })
-                  }
-                ></TextInput>
-              </View>
-            </Text>
-            <View style={styles.buttonContainer}>
-              <TouchableWithoutFeedback style={styles.buttonCancel}>
-                <Button
-                  color="#ff8000"
-                  title="Cancel"
-                  onPress={() => {
+  //PAGE LOAD
+  componentDidMount() {
+    AsyncStorage.getItem("userEmail").then((data) => {
+      if (data) {
+        //If userEmail has data -> email
+        Email = JSON.parse(data);
+        console.log(Email)
+      } else {
+        console.log("error");
+      }
+    });
+    
+
+    AsyncStorage.getItem("userEmail").then((data) => {
+      if (data) {
+        //If userEmail has data -> email
+        var uEmail = JSON.parse(data);
+        fetch("https://alert-qc.com/mobile/completedReportsList.php", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respo_email: uEmail,
+          }),
+        })
+          .then((response) => response.json())
+          .then((reseponseJson) => {
+            this.setState({
+              isLoading: false.valueOf,
+              dataSource: reseponseJson,
+            });
+          });
+      } else {
+        console.log("error");
+      }
+    });
+  }
+  //INCIDENT CARD
+
+  _renderItem = ({ item, index }) => {
+    if (item.id === undefined) {
+      return (
+        <View>
+          <Text>No Available Reports For Now</Text>
+        </View>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert(
+              "Incident Detail",
+              "Reporter: " +
+                item.first_name +
+                " " +
+                item.last_name +
+                "\n" +
+                "Location: " +
+                item.location_of_incident +
+                "\n" +
+                "Incident: " +
+                item.incident_type +
+                "\n" +
+                "Injuries: " +
+                item.injuries +
+                "\n" +
+                "Date/Time Reported: " +
+                item.date_time +
+                "\n" +
+                "Short Brief:\n\n" +
+                item.short_description,
+              [
+                {
+                  text: "Cancel",
+                  style: "cancel",
+                },
+                {
+                  text: "Edit",
+                  onPress: () => {
+                    //send notification
+
+                    //assign report to self
+                    const repID = item.id + "";
                     Alert.alert(
-                      "Cancel?",
-                      "Canceling will discard all changes made",
+                      "Edit Report",
+                      "By editing this report, it will be return to 'for review' status",
                       [
                         {
                           text: "Cancel",
                           style: "cancel",
                         },
                         {
-                          text: "Discard",
+                          text: "Ok",
                           onPress: () => {
-                            this.props.navigation.goBack(null);
+                            console.log("Edit");
+                            //send to new page
                           },
                         },
                       ]
                     );
+                  },
+                },
+              ]
+            );
+          }}
+        >
+          <View style={styles.itemCard}>
+            <Text style={styles.itemText}>
+              <Text style={styles.accHead}>Reporter:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.first_name + " " + item.last_name + "\n"}
+              </Text>
 
-                    console.log("discard");
-                  }}
-                ></Button>
-              </TouchableWithoutFeedback>
+              <Text style={styles.accHead}>Barangay:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.barangay + "\n"}
+              </Text>
 
-              <TouchableWithoutFeedback style={styles.buttonUpdate}>
-                <Button
-                  title="update"
-                  color="#87c830"
-                  onPress={() => {
-                    fetch("https://alert-qc.com/mobile/updateRespoUser.php", {
-                      method: "POST",
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        phpRID: this.state.repoID,
-                        phpFname: this.state.newFirstName,
-                        phpMname: this.state.newMiddleName,
-                        phpLname: this.state.newLastName,
-                        phpCPnum: this.state.newContactNumber,
-                        phpEadd: this.state.newEmailAddress,
-                        phpRadd: this.state.newResponderAddress,
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((responseJson) => {
-                        // If the Data matched.
-                        if (responseJson === "Updated!") {
-                          Alert.alert(
-                            responseJson + "",
-                            "Do you wish to continue making changes?",
-                            [
-                              {
-                                text: "Yes",
-                                style: "cancel",
-                              },
-                              {
-                                text: "No",
-                                onPress: () => {
-                                  this.props.navigation.goBack(null);
-                                },
-                              },
-                            ]
-                          );
-                        } else {
-                          Alert.alert(responseJson);
-                        }
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                      });
+              <Text style={styles.accHead}>Location:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.location_of_incident + "\n"}
+              </Text>
 
-                    console.log(this.state.repoID);
-                  }}
-                >
-                  <Text>Update</Text>
-                </Button>
-              </TouchableWithoutFeedback>
-            </View>
+              <Text style={styles.accHead}>Incident:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.incident_type + "\n"}
+              </Text>
+
+              {/* <Text >SATUS:</Text>
+            <Text style={styles.itemVal} editable={false}>{item.status+"\n"}</Text> */}
+
+              <Text style={styles.accHead}>Contact:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.phone}
+              </Text>
+            </Text>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  render() {
+    let { dataSource, isLoading } = this.state;
+    if (isLoading) {
+      <View></View>;
+    }
+
+    return (
+      <SafeAreaView>
+        <View styles={styles.container}>
+          <FlatList
+            data={dataSource}
+            renderItem={this._renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          ></FlatList>
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    padding: 15,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    paddingTop: 50,
   },
-  buttonContainer: {
-    paddingTop: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
+  itemCard: {
+    flex: 1,
+    padding: 25,
+    borderBottomWidth: 2,
+    borderBottomColor: "#ffcd9c",
   },
-  buttonCancel: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  buttonUpdate: {
-    width: Dimensions.get("screen").width * 0.45,
-  },
-  headerText: {
+  itemText: {
+    flex: 1,
     fontSize: 20,
     color: "black",
   },
-  inputTextF: {
-    width: Dimensions.get("screen").width,
-    borderBottomWidth: 1,
-    borderColor: "#ff8000",
+  LogButt: {
+    position: "absolute",
   },
+  accHead: {
+    fontSize: 15,
+    color: "grey",
+  },
+  itemVal: {},
 });
