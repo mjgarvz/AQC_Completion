@@ -75,6 +75,26 @@ export default class CompleteReportScreen extends Component {
     };
       
   }
+  componentDidMount(){
+    //load report
+    fetch("https://alert-qc.com/mobile/loadCompletedReport.php", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phpcreportID: creportID,
+          }),
+        })
+          .then((response) => response.json())
+          .then((reseponseJson) => {
+            this.setState({
+              isLoading: false.valueOf,
+              dataSource: reseponseJson,
+            });
+          });
+  }
 
   
   
@@ -326,7 +346,7 @@ export default class CompleteReportScreen extends Component {
                   title="Create"
                   color="#87c830"
                   onPress={() => {
-                    fetch("https://alert-qc.com/mobile/createResponderReport.php", {
+                    fetch("https://alert-qc.com/mobile/updateResponderReport.php", {
                       method: "POST",
                       headers: {
                         Accept: "application/json",

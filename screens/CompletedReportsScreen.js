@@ -115,7 +115,7 @@ export default class IncidentScreen extends React.Component {
                 item.reporterLoc +", "+ item.reporterBrgy +
                 "\n" +
                 "Incident: " +
-                item.reporterInc ,
+                item.reporterInc,
               [
                 {
                   text: "Cancel",
@@ -173,7 +173,13 @@ export default class IncidentScreen extends React.Component {
 
               <Text style={styles.accHead}>Incident:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.reporterInc}
+                {item.reporterInc + "\n"}
+                
+              </Text>
+              
+              <Text style={styles.itemVal} editable={false}>
+                {item.status}
+                
               </Text>
 
             </Text>

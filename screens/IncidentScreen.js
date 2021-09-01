@@ -160,6 +160,7 @@ export default class IncidentScreen extends React.Component {
                         {
                           text: "Active Screen",
                           onPress: () => {
+                            //navigates from profile stack to active stack
                             this.props.navigation.navigate('Active',{})
                           },
                           style: "cancel",

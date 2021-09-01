@@ -297,7 +297,7 @@ export default class ProfileScreen extends React.Component {
             <TouchableOpacity style={styles.buttonReports}>
               <Button
               color="#FF8000"
-                title="Reports Completed"
+                title="Past Incidents"
                 onPress={() => {
                   console.log(this.state.respoUID);
                   this.props.navigation.navigate("ReportsCompleted", {

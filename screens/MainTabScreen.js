@@ -233,7 +233,7 @@ const ProfileStackScreen = ({ navigation }) => (
       name="ReportsCompleted"
       component={CompletedReportsScreen}
       options={{
-        title: "Reports Completed",
+        title: "Past Incidents",
         headerTitleAlign: "center",
         
       }}
