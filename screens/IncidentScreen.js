@@ -14,6 +14,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { OpenMapDirections } from "react-native-navigation-directions";
 import { showLocation } from "react-native-map-link";
+import { NavigationActions } from "react-navigation";
 
 export default class IncidentScreen extends React.Component {
   constructor(props) {
@@ -158,6 +159,9 @@ export default class IncidentScreen extends React.Component {
                       [
                         {
                           text: "Cancel",
+                          onPress: () => {
+                            this.props.navigation.navigate('Active',{})
+                          },
                           style: "cancel",
                         },
                         {
