@@ -158,7 +158,7 @@ export default class IncidentScreen extends React.Component {
                       "This incident is now assigned to you",
                       [
                         {
-                          text: "Cancel",
+                          text: "Active Screen",
                           onPress: () => {
                             this.props.navigation.navigate('Active',{})
                           },
