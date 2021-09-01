@@ -24,6 +24,7 @@ export default class IncidentScreen extends React.Component {
       dataSource: [],
       Email: "",
       respo_status: "",
+      checkResponderStatus: "",
     };
     setInterval(() => {
       this._loadPage();
@@ -46,38 +47,115 @@ export default class IncidentScreen extends React.Component {
   };
   //load page
   _loadPage() {
-    fetch("https://alert-qc.com/mobile/reportsOnProc.php")
+    fetch("https://alert-qc.com/mobile/loadRespoStatus.php", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        respo_email: this.state.Email,
+      }),
+    })
       .then((response) => response.json())
-      .then((reseponseJson) => {
+      .then((responseJson) => {
+        if (responseJson === "On Call") {
+          this.state.checkResponderStatus = "On Call";
+          console.log("On Call");
+        } else if (responseJson === "Available") {
+          this.state.checkResponderStatus = "Available";
+          console.log(this.state.Email);
+          console.log("Available");
+        } else {
+          alert("Loading");
+          console.log(responseJson);
+        }
+      });
+
+    fetch("https://alert-qc.com/mobile/loadRespoDept.php", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        respo_email: this.state.Email,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
         this.setState({
           isLoading: false.valueOf,
-          dataSource: reseponseJson,
+          dataSource: responseJson,
         });
       });
   }
 
   //PAGE LOAD
   componentDidMount() {
+    var uEmail = "";
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
         //If userEmail has data -> email
-        Email = JSON.parse(data);
+        uEmail = JSON.parse(data);
+        this.state.Email = JSON.parse(data);
+
+        fetch("https://alert-qc.com/mobile/loadRespoStatus.php", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respo_email: uEmail,
+          }),
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            if (responseJson === "On Call") {
+              this.state.checkResponderStatus = "On Call";
+              console.log("On Call");
+            } else if (responseJson === "Available") {
+              this.state.checkResponderStatus = "Available";
+              console.log(this.state.Email);
+              console.log("Available");
+            } else {
+              alert("Loading");
+              console.log(responseJson);
+            }
+          });
       } else {
         console.log("error");
       }
     });
 
-    fetch("https://alert-qc.com/mobile/reportsOnProc.php")
-      .then((response) => response.json())
-      .then((reseponseJson) => {
-        this.setState({
-          isLoading: false.valueOf,
-          dataSource: reseponseJson,
-        });
-      });
+    AsyncStorage.getItem("userEmail").then((data) => {
+      if (data) {
+        //If userEmail has data -> email
+        var cEmail = JSON.parse(data);
+        fetch("https://alert-qc.com/mobile/loadRespoDept.php", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respo_email: cEmail,
+          }),
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            this.setState({
+              isLoading: false.valueOf,
+              dataSource: responseJson,
+            });
+          });
+      } else {
+        console.log("error");
+      }
+    });
   }
   //INCIDENT CARD
-
   _renderItem = ({ item, index }) => {
     if (item.id === undefined) {
       return (
@@ -137,7 +215,7 @@ export default class IncidentScreen extends React.Component {
                           "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                          username: Email,
+                          username: this.state.Email,
                           report: repID,
                         }),
                       }
@@ -161,7 +239,7 @@ export default class IncidentScreen extends React.Component {
                           text: "Active Screen",
                           onPress: () => {
                             //navigates from profile stack to active stack
-                            this.props.navigation.navigate('Active',{})
+                            this.props.navigation.navigate("Active", {});
                           },
                           style: "cancel",
                         },
@@ -240,6 +318,13 @@ export default class IncidentScreen extends React.Component {
   };
 
   render() {
+    if (this.state.checkResponderStatus === "On Call") {
+      return (
+        <View>
+          <Text>YOU HAVE AN ACTIVE REPORT!</Text>
+        </View>
+      );
+    }
     let { dataSource, isLoading } = this.state;
     if (isLoading) {
       <View></View>;

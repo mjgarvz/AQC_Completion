@@ -25,6 +25,7 @@ export default class ProfileScreen extends React.Component {
       dataSourceTwo: [],
       Email: "",
       status: "",
+      
       //respoCreds
       respoUID: "",
       firstName: "",
@@ -83,6 +84,7 @@ export default class ProfileScreen extends React.Component {
         console.log("error");
       }
     });
+    
 
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
