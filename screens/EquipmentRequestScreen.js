@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { ScrollView } from 'react-native';
+import { Alert } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { Dimensions } from 'react-native';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView, StatusBar } from 'react-native';
 
 
 class EquipmentRequestScreen extends Component {
@@ -8,9 +12,22 @@ class EquipmentRequestScreen extends Component {
   constructor(props){
     super(props);
     this.state = {
+      repoID: this.props.route.params.rID,
       textInput : [],
       inputData : [],
+
+      textToState : "",
+      qtyToState : "",
+      viewReq : "",
+
+      textToPhp : "",
+      qtyToPhp : "",
     }
+    
+
+  }
+  componentDidMount(){
+    this.addTextInput(this.state.textInput.length)
   }
 
   //function to add TextInput dynamically
@@ -35,6 +52,7 @@ class EquipmentRequestScreen extends Component {
     textInput.pop();
     inputData.pop();
     this.setState({ textInput,inputData });
+    this.setState({textToState: "", qtyToState:"", viewReq: ""})
   }
 
   //function to add text from TextInputs into single array
@@ -87,32 +105,125 @@ class EquipmentRequestScreen extends Component {
     });
   }
   }
+  
 
   //function to console the output
   getValues = () => {
     console.log('Data',this.state.inputData);
+    
+    this.state.inputData.filter((element) => {
+      this.state.textToState = this.state.textToState.concat("\n", element.text);
+      this.state.qtyToState = this.state.qtyToState.concat("\n", element.qty);
+      this.state.viewReq = this.state.viewReq.concat("x",element.qty," ",element.text,"\n")
+      console.log(this.state.textToState)
+      console.log(this.state.qtyToState)
+      //alert then fetch
+      
+    })
+
+    Alert.alert(
+      "Request Preview",
+      "Equipment to be requested \n" + this.state.viewReq,
+      [
+        {
+          text: "Cancel",
+          onPress: () => {this.setState({textToState: "", qtyToState:"", viewReq: ""})},
+          style: "cancel"
+        },
+      { text: "OK", onPress: () => {
+        this.setState({textToState: "", qtyToState:"", viewReq: ""})
+        fetch("https://alert-qc.com/mobile/createResponderEqReq.php", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phpRID: this.state.repoID,
+          textToPhp: this.state.textToState,
+          qtyToPhp: this.state.qtyToState,
+        }),
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          // If the Data matched.
+          if (responseJson === "Request Sent") {
+            Alert.alert(
+              responseJson
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    this.props.navigation.goBack(null);
+                  },
+                }
+              ]
+            );
+          } else {
+            Alert.alert(responseJson);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      
+      console.log(this.state.repoID);} }
+      ]
+    );
+
+  }
+  exitReset = () =>{
+      Alert.alert(
+        "Cancel?",
+        "Canceling will discard all changes made",
+        [
+          {
+            text: "No",
+            style: "cancel",
+          },
+          {
+            text: "Discard",
+            onPress: () => {
+              this.props.navigation.goBack(null);
+            },
+          },
+        ]
+      );
+
+      console.log("discard");
   }
 
 
   render(){
     return(
-      <View>
-        <View style= {styles.row}>
+      <KeyboardAvoidingView
+      style={{ 
+        flex: 1,
+        height: '100%',
+        width: "100%"}}
+      >
+        <ScrollView style={styles.container}>
+          <View style= {styles.row}>
+            <View style={{margin: 10}}>
+          <Button title='Add' onPress={() => this.addTextInput(this.state.textInput.length)} />
+          </View>
           <View style={{margin: 10}}>
-        <Button title='Add' onPress={() => this.addTextInput(this.state.textInput.length)} />
-        </View>
-        <View style={{margin: 10}}>
-        <Button title='Remove' onPress={() => this.removeTextInput()} />
-        </View>
-        </View>
-        {this.state.textInput.map((value) => {
-          return value
-        })}
-        <View style={styles.buttonValue}>
-        <Button  title='View Request' onPress={() => this.getValues()} />
-        </View>
-        
-      </View>
+          <Button title='Remove' onPress={() => this.removeTextInput()} />
+          </View>
+          </View>
+          {this.state.textInput.map((value) => {
+            return value
+          })}
+          <View style={styles.buttonValue}>
+            <TouchableWithoutFeedback style={styles.buttonStyle}>
+              <Button title='Cancel' onPress={() => this.exitReset()} />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback style={styles.buttonStyle}>
+              <Button title='View Request' onPress={() => this.getValues()} />
+            </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -120,9 +231,7 @@ class EquipmentRequestScreen extends Component {
 const styles = StyleSheet.create({
 container: {
   flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'white',
+
 },
 buttonView: {
   flexDirection: 'row'
@@ -145,6 +254,11 @@ textInput2: {
 },
 buttonValue: {
   margin: 20,
+  justifyContent: "space-between",
+  flexDirection: "row",
+},
+buttonStyle: {
+  width: Dimensions.get("screen").width * 0.45,
 },
 row:{
   flexDirection: 'row',
@@ -155,7 +269,7 @@ texteq:{
 },
 textqty: {
   textAlign:'right'
-}
+},
 });
 
 export default EquipmentRequestScreen;
