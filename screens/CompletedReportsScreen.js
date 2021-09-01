@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { OpenMapDirections } from "react-native-navigation-directions";
 import { showLocation } from "react-native-map-link";
 
-export default class IncidentScreen extends React.Component {
+export default class PastIncidentScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +23,35 @@ export default class IncidentScreen extends React.Component {
       dataSource: [],
       Email: "",
       repoID: this.props.route.params.rID,
+
+      //send to nextpage data
+      sourceReportID: "",
+      reporter: "",
+      reporterCont: "",
+      reporterBrgy: "",
+      reporterLoc: "",
+      reporterInc: "",
+      reporterInj: "",
+      reporterDesc: "",
+      reporterDnT: "",
+
+      responderID: "",
+      responderName: "",
+      responderVHC: "",
+      responderDT: "",
+      responderAT: "",
+      responderRT: "",
+      responderUCT: "",
+      responderDist: "",
+      responderDesc: "",
+      responderInj: "",
+      responderDeath: "",
+      injuredResponder: "",
+      responderEQ: "",
+      responderProb: "",
+      reponderDoE: "",
+      responderCause: "",
+      responderActions: "",
     };
     // setInterval(() => {
     //   this._loadPage();
@@ -74,24 +103,24 @@ export default class IncidentScreen extends React.Component {
 
   //PAGE LOAD
   componentDidMount() {
-        fetch("https://alert-qc.com/mobile/completedReportsList.php", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            responderID: this.state.repoID,
-          }),
-        })
-          .then((response) => response.json())
-          .then((reseponseJson) => {
-            this.setState({
-              isLoading: false.valueOf,
-              dataSource: reseponseJson,
-            });
-          });
-      console.log(this.state.repoID)
+    fetch("https://alert-qc.com/mobile/completedReportsList.php", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        responderID: this.state.repoID,
+      }),
+    })
+      .then((response) => response.json())
+      .then((reseponseJson) => {
+        this.setState({
+          isLoading: false.valueOf,
+          dataSource: reseponseJson,
+        });
+      });
+    console.log(this.state.repoID);
   }
   //INCIDENT CARD
 
@@ -112,7 +141,9 @@ export default class IncidentScreen extends React.Component {
                 item.reporter +
                 "\n" +
                 "Location: " +
-                item.reporterLoc +", "+ item.reporterBrgy +
+                item.reporterLoc +
+                ", " +
+                item.reporterBrgy +
                 "\n" +
                 "Incident: " +
                 item.reporterInc,
@@ -140,9 +171,40 @@ export default class IncidentScreen extends React.Component {
                           text: "Ok",
                           onPress: () => {
                             console.log(repID);
-                            this.props.navigation.navigate("EditReportsCompleted", {
-                              rID: this.state.repID,
-                            });
+                            this.props.navigation.navigate(
+                              "EditReportsCompleted",
+                              {
+                                rID: repID,
+                                sourceReportID: item.sourceReportID,
+                                reporter: item.reporter,
+                                reporterCont: item.reporterCont,
+                                reporterBrgy: item.reporterBrgy,
+                                reporterLoc: item.reporterLoc,
+                                reporterInc: item.reporterInc,
+                                reporterInj: item.reporterInj,
+                                reporterDesc: item.reporterDesc,
+                                reporterDnT: item.reporterDnT,
+
+                                responderID: item.responderID,
+                                responderName: item.responderName,
+                                responderVHC: item.responderVHC,
+                                responderDT: item.responderDT,
+                                responderAT: item.responderAT,
+                                responderRT: item.responderRT,
+                                responderUCT: item.responderUCT,
+                                responderDist: item.responderDist,
+                                responderDesc: item.responderDesc,
+                                responderInj: item.responderInj,
+                                responderDeath: item.responderDeath,
+                                injuredResponder: item.injuredResponder,
+                                deadResponder: item.deadResponder,
+                                responderEQ: item.responderEQ,
+                                responderProb: item.responderProb,
+                                responderDoE: item.responderDoE,
+                                responderCause: item.responderCause,
+                                responderActions: item.responderActions,
+                              }
+                            );
                             //send to new page
                           },
                         },
@@ -168,20 +230,17 @@ export default class IncidentScreen extends React.Component {
 
               <Text style={styles.accHead}>Location:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.reporterLoc +", " +item.reporterBrgy + "\n"}
+                {item.reporterLoc + ", " + item.reporterBrgy + "\n"}
               </Text>
 
               <Text style={styles.accHead}>Incident:</Text>
               <Text style={styles.itemVal} editable={false}>
                 {item.reporterInc + "\n"}
-                
-              </Text>
-              
-              <Text style={styles.itemVal} editable={false}>
-                {item.status}
-                
               </Text>
 
+              <Text style={styles.itemVal} editable={false}>
+                {item.status}
+              </Text>
             </Text>
           </View>
         </TouchableOpacity>

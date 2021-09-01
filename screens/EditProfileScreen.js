@@ -31,15 +31,16 @@ export default class EditProfileScreen extends Component {
       middleName: this.props.route.params.mname,
       lastName: this.props.route.params.lname,
       conNum: this.props.route.params.contactNum,
+      //team and dept
       emailAdd: this.props.route.params.emailAddress,
-      respoAdd: this.props.route.params.respoderAddress,
+      
 
       newFirstName: this.props.route.params.fname,
       newMiddleName: this.props.route.params.mname,
       newLastName: this.props.route.params.lname,
       newContactNumber: this.props.route.params.contactNum,
-      newEmailAddress: this.props.route.params.emailAddress,
-      newResponderAddress: this.props.route.params.respoderAddress,
+      //team and dept
+      rTeam: this.props.route.params.emailAddress,
     };
   }
 
@@ -87,15 +88,7 @@ export default class EditProfileScreen extends Component {
                   style={styles.inputTextF}
                   defaultValue={this.state.emailAdd}
                   onChangeText={(data) =>
-                    this.setState({ newEmailAddress: data })
-                  }
-                ></TextInput>
-                <Text style={styles.headerText}>Department:</Text>
-                <TextInput
-                  style={styles.inputTextF}
-                  defaultValue={this.state.respoAdd}
-                  onChangeText={(data) =>
-                    this.setState({ newResponderAddress: data })
+                    this.setState({ rTeam: data })
                   }
                 ></TextInput>
               </View>
@@ -145,8 +138,7 @@ export default class EditProfileScreen extends Component {
                         phpMname: this.state.newMiddleName,
                         phpLname: this.state.newLastName,
                         phpCPnum: this.state.newContactNumber,
-                        phpEadd: this.state.newEmailAddress,
-                        phpRadd: this.state.newResponderAddress,
+                        phpEadd: this.state.rTeam,
                       }),
                     })
                       .then((response) => response.json())

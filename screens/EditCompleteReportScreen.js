@@ -21,7 +21,7 @@ import CallPicker from "./CallPicker";
 
 //landing
 
-export default class CompleteReportScreen extends Component {
+export default class EditCompleteReportScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,76 +31,95 @@ export default class CompleteReportScreen extends Component {
       status: "",
       creportID: this.props.route.params.rID,
       repoID: "",
-      //responderStates
-      firstName: this.props.route.params.fname,
-      middleName: this.props.route.params.mname,
-      lastName: this.props.route.params.lname,
-      conNum: this.props.route.params.contactNum,
-      emailAdd: this.props.route.params.emailAddress,
-      respoAdd: this.props.route.params.respoderAddress,
+      sourceReportID: this.props.route.params.sourceReportID,
+      reporter: this.props.route.params.reporter,
+      reporterCont: this.props.route.params.reporterCont,
+      reporterBrgy: this.props.route.params.reporterBrgy,
+      reporterLoc: this.props.route.params.reporterLoc,
+      reporterInc: this.props.route.params.reporterInc,
+      reporterInj: this.props.route.params.reporterInj,
+      reporterDesc: this.props.route.params.reporterDesc,
+      reporterDnT: this.props.route.params.reporterDnT,
 
-      //reportState to be sent to php
-      reportID: this.props.route.params.repId,
-      reporterName: this.props.route.params.reportersName,
-      reporterContact: this.props.route.params.reportersCont,
-      reporterBarangay: this.props.route.params.reporterBRGY,
-      reporterLocation: this.props.route.params.reporterLoc,
-      reporterIncident: this.props.route.params.reportedIncident,
-      reporterInjured: this.props.route.params.reportedInj,
-      reportDesc: this.props.route.params.reportDescription,
-      reportDnT: this.props.route.params.dateAndTime,
+      responderID: this.props.route.params.responderID,
+      responderName: this.props.route.params.responderName,
+      responderVHC: this.props.route.params.responderVHC,
+      responderDT: this.props.route.params.responderDT,
+      responderAT: this.props.route.params.responderAT,
+      responderRT: this.props.route.params.responderRT,
+      responderUCT: this.props.route.params.responderUCT,
+      responderDist: this.props.route.params.responderDist,
+      responderDesc: this.props.route.params.responderDesc,
+      responderInj: this.props.route.params.responderInj,
+      responderDeath: this.props.route.params.responderDeath,
+      injuredResponder: this.props.route.params.injuredResponder,
+      deadResponder: this.props.route.params.deadResponder,
+      responderEQ: this.props.route.params.responderEQ,
+      responderProb: this.props.route.params.responderProb,
+      responderDoE: this.props.route.params.responderDoE,
+      responderCause: this.props.route.params.responderCause,
+      responderActions: this.props.route.params.responderActions,
+      //data to be sent to php
+      nsourceReportID: this.props.route.params.sourceReportID,
+      nreporter: this.props.route.params.reporter,
+      nreporterCont: this.props.route.params.reporterCont,
+      nreporterBrgy: this.props.route.params.reporterBrgy,
+      nreporterLoc: this.props.route.params.reporterLoc,
+      nreporterInc: this.props.route.params.reporterInc,
+      nreporterInj: this.props.route.params.reporterInj,
+      nreporterDesc: this.props.route.params.reporterDesc,
+      nreporterDnT: this.props.route.params.reporterDnT,
 
-      //states to be sent to php
-      responderName: "",
-      responderVehicle: "",
-      responderDT: "",
-      responderAT: "",
-      responderRT: "",
-      responderUCT: "",
-      responderIncDistance: "",
-      responderLocDesc: "",
-      responderCInjured: "",
-      responderCDeaths: "",
-      responderRInjured: "",
-      responderRDeaths: "",
-      responderEq: "",
-      responderProb: "",
-      responderDescOfEvents: "",
-      responderCoI: "",
-      responderAction: "",
+      nresponderID: this.props.route.params.responderID,
+      nresponderName: this.props.route.params.responderName,
+      nresponderVHC: this.props.route.params.responderVHC,
+      nresponderDT: this.props.route.params.responderDT,
+      nresponderAT: this.props.route.params.responderAT,
+      nresponderRT: this.props.route.params.responderRT,
+      nresponderUCT: this.props.route.params.responderUCT,
+      nresponderDist: this.props.route.params.responderDist,
+      nresponderDesc: this.props.route.params.responderDesc,
+      nresponderInj: this.props.route.params.responderInj,
+      nresponderDeath: this.props.route.params.responderDeath,
+      ninjuredResponder: this.props.route.params.injuredResponder,
+      ndeadResponder: this.props.route.params.deadResponder,
+      nresponderEQ: this.props.route.params.responderEQ,
+      nresponderProb: this.props.route.params.responderProb,
+      nresponderDoE: this.props.route.params.responderDoE,
+      nresponderCause: this.props.route.params.responderCause,
+      nresponderActions: this.props.route.params.responderActions,
 
       //vars
       isDatePickerVisible: false,
       setDatePickerVisibility: false,
     };
-      
   }
-  componentDidMount(){
-    //load report
-    fetch("https://alert-qc.com/mobile/loadCompletedReport.php", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phpcreportID: creportID,
-          }),
-        })
-          .then((response) => response.json())
-          .then((reseponseJson) => {
-            this.setState({
-              isLoading: false.valueOf,
-              dataSource: reseponseJson,
-            });
-          });
-  }
-
-  
-  
+  // componentDidMount() {
+  //   //load report
+  //   fetch("https://alert-qc.com/mobile/loadCompletedReport.php", {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       phpcreportID: this.state.creportID,
+  //     }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((reseponseJson) => {
+  //       this.setState({
+  //         isLoading: false.valueOf,
+  //         dataSource: reseponseJson,
+  //       });
+  //     });
+  // }
 
   render() {
-    this.state.responderName = this.state.firstName + " " + this.state.lastName
+    let { dataSource, isLoading } = this.state;
+    if (isLoading) {
+      <View></View>;
+    }
 
     return (
       <KeyboardAvoidingView style={{ flex: 1 }}>
@@ -113,47 +132,47 @@ export default class CompleteReportScreen extends Component {
                   <Text style={styles.itemText}>
                     <Text style={styles.accHead}>Report ID:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reportID + "\n"}
+                      {this.state.sourceReportID + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Reporter:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {"\n" + this.state.reporterName + "\n"}
+                      {"\n" + this.state.reporter + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Contact:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {"\n" + this.state.reporterContact + "\n"}
+                      {"\n" + this.state.reporterCont + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Barangay:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reporterBarangay + "\n"}
+                      {this.state.reporterBrgy + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Location:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reporterLocation + "\n"}
+                      {this.state.reporterLoc + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Incident:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reporterIncident + "\n"}
+                      {this.state.reporterInc + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Injuries:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reporterInjured + "\n"}
+                      {this.state.reporterInj + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Description:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {this.state.reportDesc + "\n"}
+                      {this.state.reporterDesc + "\n"}
                     </Text>
 
                     <Text style={styles.accHead}>Date and Time:</Text>
                     <Text style={styles.itemVal} editable={false}>
-                      {"\n" + this.state.reportDnT}
+                      {"\n" + this.state.reporterDnT}
                     </Text>
                   </Text>
                 </View>
@@ -164,16 +183,14 @@ export default class CompleteReportScreen extends Component {
               <Text style={styles.reportText}>Responder</Text>
               <TextInput
                 style={styles.reportTextInput}
-                value={this.state.firstName + " " + this.state.lastName}
+                value={this.state.responderName}
                 editable={false}
               ></TextInput>
               <Text style={styles.reportText}>Vehicle Used</Text>
               <TextInput
                 style={styles.reportTextInput}
-                placeholder={"Vehicle and Number ex. Ambulance 12"}
-                onChangeText={(data) =>
-                  this.setState({ responderVehicle: data })
-                }
+                defaultValue={this.state.responderVHC}
+                onChangeText={(data) => this.setState({ nresponderVHC: data })}
               ></TextInput>
 
               <Text>{"\n"}</Text>
@@ -181,26 +198,30 @@ export default class CompleteReportScreen extends Component {
               <Text style={styles.reportText}>Time on Dispatch</Text>
               <TextInput
                 style={styles.reportTextInput}
-                onChangeText={(data) => this.setState({ responderDT: data })}
+                defaultValue={this.state.responderDT}
+                onChangeText={(data) => this.setState({ nresponderDT: data })}
               ></TextInput>
-{/*start test*/}
-{/*start test*/}
+              {/*start test*/}
+              {/*start test*/}
               <Text style={styles.reportText}>Time on Arrival on Scene</Text>
               <TextInput
                 style={styles.reportTextInput}
-                onChangeText={(data) => this.setState({ responderAT: data })}
+                defaultValue={this.state.responderAT}
+                onChangeText={(data) => this.setState({ nresponderAT: data })}
               ></TextInput>
               <Text style={styles.reportText}>Time on Return to Base</Text>
               <TextInput
                 style={styles.reportTextInput}
-                onChangeText={(data) => this.setState({ responderRT: data })}
+                defaultValue={this.state.responderRT}
+                onChangeText={(data) => this.setState({ nresponderRT: data })}
               ></TextInput>
               <Text style={styles.reportText}>
                 Time on Incident Under Control
               </Text>
               <TextInput
                 style={styles.reportTextInput}
-                onChangeText={(data) => this.setState({ responderUCT: data })}
+                defaultValue={this.state.responderUCT}
+                onChangeText={(data) => this.setState({ nresponderUCT: data })}
               ></TextInput>
 
               <Text>{"\n"}</Text>
@@ -211,19 +232,16 @@ export default class CompleteReportScreen extends Component {
               <TextInput
                 style={styles.reportTextInput}
                 keyboardType={"numeric"}
-                onChangeText={(data) =>
-                  this.setState({ responderIncDistance: data })
-                }
+                defaultValue={this.state.responderDist}
+                onChangeText={(data) => this.setState({ nresponderDist: data })}
               ></TextInput>
               <Text style={styles.reportText}>
                 Description of Incident and Location
               </Text>
               <TextInput
                 style={styles.reportTextInput}
-                placeholder={"ex. Fire in Appartment Complex"}
-                onChangeText={(data) =>
-                  this.setState({ responderLocDesc: data })
-                }
+                defaultValue={this.state.responderDesc}
+                onChangeText={(data) => this.setState({ nresponderDesc: data })}
               ></TextInput>
               <Text>{"\n"}</Text>
               <Text style={styles.reportSubHeader}>Civilian Casualties</Text>
@@ -231,16 +249,16 @@ export default class CompleteReportScreen extends Component {
               <TextInput
                 style={styles.reportTextInput}
                 keyboardType={"numeric"}
-                onChangeText={(data) =>
-                  this.setState({ responderCInjured: data })
-                }
+                defaultValue={this.state.responderInj}
+                onChangeText={(data) => this.setState({ nresponderInj: data })}
               ></TextInput>
               <Text style={styles.reportText}>Deaths</Text>
               <TextInput
                 style={styles.reportTextInput}
                 keyboardType={"numeric"}
+                defaultValue={this.state.responderDeath}
                 onChangeText={(data) =>
-                  this.setState({ responderCDeaths: data })
+                  this.setState({ nresponderDeath: data })
                 }
               ></TextInput>
               <Text>{"\n"}</Text>
@@ -249,17 +267,17 @@ export default class CompleteReportScreen extends Component {
               <TextInput
                 style={styles.reportTextInput}
                 keyboardType={"numeric"}
+                defaultValue={this.state.injuredResponder}
                 onChangeText={(data) =>
-                  this.setState({ responderRInjured: data })
+                  this.setState({ ninjuredResponder: data })
                 }
               ></TextInput>
               <Text style={styles.reportText}>Deaths</Text>
               <TextInput
                 style={styles.reportTextInput}
                 keyboardType={"numeric"}
-                onChangeText={(data) =>
-                  this.setState({ responderRDeaths: data })
-                }
+                defaultValue={this.state.deadResponder}
+                onChangeText={(data) => this.setState({ ndeadResponder: data })}
               ></TextInput>
 
               <Text>{"\n"}</Text>
@@ -268,48 +286,43 @@ export default class CompleteReportScreen extends Component {
               <TextInput
                 style={styles.reportTextInput}
                 multiline
-                onChangeText={(data) => this.setState({ responderEq: data })}
+                defaultValue={this.state.responderEQ}
+                onChangeText={(data) => this.setState({ nresponderEQ: data })}
               ></TextInput>
               <Text style={styles.reportText}>Problems Encountered</Text>
               <TextInput
                 style={styles.reportTextInput}
                 multiline
                 numberOfLines={5}
-                placeholder={
-                  "ex.\n1.more injured than reported \n2.fire damaged nearby houses"
-                }
-                onChangeText={(data) => this.setState({ responderProb: data })}
+                defaultValue={this.state.responderProb}
+                onChangeText={(data) => this.setState({ nresponderProb: data })}
               ></TextInput>
               <Text style={styles.reportText}>Description of Events</Text>
               <TextInput
                 style={styles.reportTextInput}
                 multiline
                 numberOfLines={5}
-                placeholder={
-                  "ex.gas leak combustion due to smokers in close proximity"
-                }
-                onChangeText={(data) =>
-                  this.setState({ responderDescOfEvents: data })
-                }
+                defaultValue={this.state.responderDoE}
+                onChangeText={(data) => this.setState({ nresponderDoE: data })}
               ></TextInput>
               <Text style={styles.reportText}>Cause of Incident</Text>
               <TextInput
                 style={styles.reportTextInput}
                 multiline
                 numberOfLines={2}
-                placeholder={"ex.Gas leak"}
-                onChangeText={(data) => this.setState({ responderCoI: data })}
+                defaultValue={this.state.responderCause}
+                onChangeText={(data) =>
+                  this.setState({ nresponderCause: data })
+                }
               ></TextInput>
               <Text style={styles.reportText}>Actions Taken</Text>
               <TextInput
                 style={styles.reportTextInput}
                 multiline
                 numberOfLines={5}
-                placeholder={
-                  "ex.\n1. gave first aid to injured \n2. sent injured to hospital"
-                }
+                defaultValue={this.state.responderActions}
                 onChangeText={(data) =>
-                  this.setState({ responderAction: data })
+                  this.setState({ nresponderActions: data })
                 }
               ></TextInput>
             </View>
@@ -343,48 +356,52 @@ export default class CompleteReportScreen extends Component {
 
               <TouchableWithoutFeedback style={styles.buttonComplete}>
                 <Button
-                  title="Create"
+                  title="Update"
                   color="#87c830"
                   onPress={() => {
-                    fetch("https://alert-qc.com/mobile/updateResponderReport.php", {
-                      method: "POST",
-                      headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        //send incident report data
-                        phpRID: this.state.reportID,
-                        phpName: this.state.reporterName,
-                        phpreporterContact: this.state.reporterContact,
-                        phpreporterBarangay: this.state.reporterBarangay,
-                        phpreporterLocation: this.state.reporterLocation,
-                        phpreporterIncident: this.state.reporterIncident,
-                        phpreporterInjured: this.state.reporterInjured,
-                        phpreportDesc: this.state.reportDesc,
-                        phpreportDnT: this.state.reportDnT,
+                    fetch(
+                      "https://alert-qc.com/mobile/updateResponderReport.php",
+                      {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          //send incident report data
+                          // phpRID: this.state.nsourceReportID,
+                          // phpName: this.state.nreporter,
+                          // phpreporterContact: this.state.nreporterCont,
+                          // phpreporterBarangay: this.state.nreporterBrgy,
+                          // phpreporterLocation: this.state.nreporterLoc,
+                          // phpreporterIncident: this.state.nreporterInc,
+                          // phpreporterInjured: this.state.nreporterInj,
+                          // phpreportDesc: this.state.nreporterDesc,
+                          // phpreportDnT: this.state.nreporterDnT,
 
-                        //send incident responder report data
-                        phpresponderID: this.state.repoID,
-                        phpresponderName: this.state.responderName,
-                        phpresponderVehicle: this.state.responderVehicle,
-                        phpresponderDT: this.state.responderDT,
-                        phpresponderAT: this.state.responderAT,
-                        phpresponderRT: this.state.responderRT,
-                        phpresponderUCT: this.state.responderUCT,
-                        phpresponderIncDistance: this.state.responderIncDistance,
-                        phpresponderLocDesc: this.state.responderLocDesc,
-                        phpresponderCInjured: this.state.responderCInjured,
-                        phpresponderCDeaths: this.state.responderCDeaths,
-                        phpresponderRInjured: this.state.responderRInjured,
-                        phpresponderRDeaths: this.state.responderRDeaths,
-                        phpresponderEq: this.state.responderEq,
-                        phpresponderProb: this.state.responderProb,
-                        phpresponderDescOfEvents: this.state.responderDescOfEvents,
-                        phpresponderCoI: this.state.responderCoI,
-                        phpresponderAction: this.state.responderAction,
-                      }),
-                    })
+                          // //send incident responder report data
+                          // phpresponderID: this.state.nresponderID,
+                          // phpresponderName: this.state.nresponderName,
+                          creportID: this.state.creportID,
+                          phpresponderVehicle: this.state.nresponderVHC,
+                          phpresponderDT: this.state.nresponderDT,
+                          phpresponderAT: this.state.nresponderAT,
+                          phpresponderRT: this.state.nresponderRT,
+                          phpresponderUCT: this.state.nresponderUCT,
+                          phpresponderIncDistance: this.state.nresponderDist,
+                          phpresponderLocDesc: this.state.nresponderDesc,
+                          phpresponderCInjured: this.state.nresponderInj,
+                          phpresponderCDeaths: this.state.nresponderDeath,
+                          phpresponderRInjured: this.state.ninjuredResponder,
+                          phpresponderRDeaths: this.state.ndeadResponder,
+                          phpresponderEq: this.state.nresponderEQ,
+                          phpresponderProb: this.state.nresponderProb,
+                          phpresponderDescOfEvents: this.state.nresponderDoE,
+                          phpresponderCoI: this.state.nresponderCause,
+                          phpresponderAction: this.state.nresponderActions,
+                        }),
+                      }
+                    )
                       .then((response) => response.json())
                       .then((responseJson) => {
                         // If the Data matched.
@@ -401,47 +418,37 @@ export default class CompleteReportScreen extends Component {
                               },
                             ]
                           );
-                        } else if(responseJson === "Please Fill up all Fields"){
+                        } else if (
+                          responseJson === "Please Fill up all Fields"
+                        ) {
                           Alert.alert(responseJson);
-                        }else {
+                        } else {
                           Alert.alert(responseJson);
                         }
                       })
                       .catch((err) => {
                         console.error(err);
                       });
-                    console.log("Source Report");
-                    console.log(this.state.reportID);
-                    console.log(this.state.reporterName);
-                    console.log(this.state.reporterContact);
-                    console.log(this.state.reporterBarangay);
-                    console.log(this.state.reporterLocation);
-                    console.log(this.state.reporterIncident);
-                    console.log(this.state.reporterInjured);
-                    console.log(this.state.reportDesc);
-                    console.log(this.state.reportDnT);
-                    console.log("Responder Report")
-                    console.log(this.state.repoID);
-                    console.log(this.state.responderName);
-                    console.log(this.state.responderVehicle);
-                    console.log(this.state.responderDT);
-                    console.log(this.state.responderAT);
-                    console.log(this.state.responderRT);
-                    console.log(this.state.responderUCT);
-                    console.log(this.state.responderIncDistance);
-                    console.log(this.state.responderLocDesc);
-                    console.log(this.state.responderCInjured);
-                    console.log(this.state.responderCDeaths);
-                    console.log(this.state.responderRInjured);
-                    console.log(this.state.responderRDeaths);
-                    console.log(this.state.responderEq);
-                    console.log(this.state.responderProb);
-                    console.log(this.state.responderDescOfEvents);
-                    console.log(this.state.responderCoI);
-                    console.log(this.state.responderAction);
+                    console.log(this.state.creportID);
+                    console.log(this.state.nresponderVHC);
+                    console.log(this.state.nresponderDT);
+                    console.log(this.state.nresponderAT);
+                    console.log(this.state.nresponderRT);
+                    console.log(this.state.nresponderUCT);
+                    console.log(this.state.nresponderDist);
+                    console.log(this.state.nresponderDesc);
+                    console.log(this.state.nresponderInj);
+                    console.log(this.state.nresponderDeath);
+                    console.log(this.state.ninjuredResponder);
+                    console.log(this.state.ndeadResponder);
+                    console.log(this.state.nresponderEQ);
+                    console.log(this.state.nresponderProb);
+                    console.log(this.state.nresponderDoE);
+                    console.log(this.state.nresponderCause);
+                    console.log(this.state.nresponderActions);
                   }}
                 >
-                  <Text>Create Report</Text>
+                  <Text>Update Report</Text>
                 </Button>
               </TouchableWithoutFeedback>
             </View>
@@ -451,7 +458,6 @@ export default class CompleteReportScreen extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {},

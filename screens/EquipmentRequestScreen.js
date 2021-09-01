@@ -46,6 +46,7 @@ class EquipmentRequestScreen extends Component {
         />
         <TextInput
           style={styles.textInput2}
+          keyboardType="number-pad"
           placeholder={"Quantity"}
           onChangeText={(qty) => this.addValues2(qty, index)}
         />
