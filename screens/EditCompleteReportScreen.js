@@ -29,7 +29,8 @@ export default class CompleteReportScreen extends Component {
       dataSource: [],
       Email: "",
       status: "",
-      repoID: this.props.route.params.rID,
+      creportID: this.props.route.params.rID,
+      repoID: "",
       //responderStates
       firstName: this.props.route.params.fname,
       middleName: this.props.route.params.mname,

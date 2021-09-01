@@ -22,6 +22,7 @@ export default class IncidentScreen extends React.Component {
       isLoading: true,
       dataSource: [],
       Email: "",
+      respo_status: "",
     };
     setInterval(() => {
       this._loadPage();

@@ -12,6 +12,7 @@ import ActiveIncidentScreen from "./ActiveIncidentScreen";
 import CompleteReportScreen from "./CompleteReportScreen";
 import CompletedReportsScreen from "./CompletedReportsScreen";
 import EquipmentRequestScreen from "./EquipmentRequestScreen";
+import EditCompleteReportScreen from "./EditCompleteReportScreen";
 
 //landing
 import CreateChatScreen from "./CreateChatScreen";
@@ -233,6 +234,15 @@ const ProfileStackScreen = ({ navigation }) => (
       component={CompletedReportsScreen}
       options={{
         title: "Reports Completed",
+        headerTitleAlign: "center",
+        
+      }}
+    />
+    <ProfileStack.Screen
+      name="EditReportsCompleted"
+      component={EditCompleteReportScreen}
+      options={{
+        title: "Edit Report",
         headerTitleAlign: "center",
         
       }}

@@ -24,9 +24,9 @@ export default class IncidentScreen extends React.Component {
       Email: "",
       repoID: this.props.route.params.rID,
     };
-    setInterval(() => {
-      this._loadPage();
-    }, 5000);
+    // setInterval(() => {
+    //   this._loadPage();
+    // }, 5000);
   }
   //MAP NAV
   _callShowDirections = () => {
@@ -56,7 +56,7 @@ export default class IncidentScreen extends React.Component {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            respo_email: uEmail,
+            responderID: this.state.repoID,
           }),
         })
           .then((response) => response.json())
@@ -74,21 +74,6 @@ export default class IncidentScreen extends React.Component {
 
   //PAGE LOAD
   componentDidMount() {
-    AsyncStorage.getItem("userEmail").then((data) => {
-      if (data) {
-        //If userEmail has data -> email
-        Email = JSON.parse(data);
-        console.log(Email)
-      } else {
-        console.log("error");
-      }
-    });
-    
-
-    AsyncStorage.getItem("userEmail").then((data) => {
-      if (data) {
-        //If userEmail has data -> email
-        var uEmail = JSON.parse(data);
         fetch("https://alert-qc.com/mobile/completedReportsList.php", {
           method: "POST",
           headers: {
@@ -96,7 +81,7 @@ export default class IncidentScreen extends React.Component {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            respo_email: uEmail,
+            responderID: this.state.repoID,
           }),
         })
           .then((response) => response.json())
@@ -106,15 +91,12 @@ export default class IncidentScreen extends React.Component {
               dataSource: reseponseJson,
             });
           });
-      } else {
-        console.log("error");
-      }
-    });
+      console.log(this.state.repoID)
   }
   //INCIDENT CARD
 
   _renderItem = ({ item, index }) => {
-    if (item.id === undefined) {
+    if (item.responderReportID === undefined) {
       return (
         <View>
           <Text>No Available Reports For Now</Text>
@@ -127,24 +109,13 @@ export default class IncidentScreen extends React.Component {
             Alert.alert(
               "Incident Detail",
               "Reporter: " +
-                item.first_name +
-                " " +
-                item.last_name +
+                item.reporter +
                 "\n" +
                 "Location: " +
-                item.location_of_incident +
+                item.reporterLoc +", "+ item.reporterBrgy +
                 "\n" +
                 "Incident: " +
-                item.incident_type +
-                "\n" +
-                "Injuries: " +
-                item.injuries +
-                "\n" +
-                "Date/Time Reported: " +
-                item.date_time +
-                "\n" +
-                "Short Brief:\n\n" +
-                item.short_description,
+                item.reporterInc ,
               [
                 {
                   text: "Cancel",
@@ -156,7 +127,7 @@ export default class IncidentScreen extends React.Component {
                     //send notification
 
                     //assign report to self
-                    const repID = item.id + "";
+                    var repID = item.responderReportID + "";
                     Alert.alert(
                       "Edit Report",
                       "By editing this report, it will be return to 'for review' status",
@@ -168,7 +139,10 @@ export default class IncidentScreen extends React.Component {
                         {
                           text: "Ok",
                           onPress: () => {
-                            console.log("Edit");
+                            console.log(repID);
+                            this.props.navigation.navigate("EditReportsCompleted", {
+                              rID: this.state.repID,
+                            });
                             //send to new page
                           },
                         },
@@ -182,33 +156,26 @@ export default class IncidentScreen extends React.Component {
         >
           <View style={styles.itemCard}>
             <Text style={styles.itemText}>
-              <Text style={styles.accHead}>Reporter:</Text>
+              <Text style={styles.accHead}>Report ID:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.first_name + " " + item.last_name + "\n"}
+                {item.sourceReportID + "\n"}
               </Text>
 
-              <Text style={styles.accHead}>Barangay:</Text>
+              <Text style={styles.accHead}>Reporter:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.barangay + "\n"}
+                {item.reporter + "\n"}
               </Text>
 
               <Text style={styles.accHead}>Location:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.location_of_incident + "\n"}
+                {item.reporterLoc +", " +item.reporterBrgy + "\n"}
               </Text>
 
               <Text style={styles.accHead}>Incident:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.incident_type + "\n"}
+                {item.reporterInc}
               </Text>
 
-              {/* <Text >SATUS:</Text>
-            <Text style={styles.itemVal} editable={false}>{item.status+"\n"}</Text> */}
-
-              <Text style={styles.accHead}>Contact:</Text>
-              <Text style={styles.itemVal} editable={false}>
-                {item.phone}
-              </Text>
             </Text>
           </View>
         </TouchableOpacity>
