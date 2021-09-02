@@ -122,38 +122,42 @@ export default class ActiveIncidentScreen extends React.Component {
               {item.date_time + "\n"}
             </Text>
 
-            <TouchableOpacity style={styles.buttonDuty}>
-              <Button
-                color="#FF8000"
-                title="Call"
-                onPress={() => {
-                  Linking.openURL("tel: " + item.phone);
-                }}
-              ></Button>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonDuty}>
-              <Button
-                color="#FF8000"
-                title="Navigate"
-                onPress={() => {
-                  const desti =
-                    item.location_of_incident +
-                    ", " +
-                    item.barangay +
-                    ", Quezon City, Metro Manila";
-                  const end = desti.toString();
-                  console.log(end);
 
-                  showLocation({
-                    longitude: 0,
-                    latitude: 0,
-                    title: end,
-                  });
-                }}
-              ></Button>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.buttonDuty}>
+                <Button
+                  color="#FF8000"
+                  title="Call"
+                  onPress={() => {
+                    Linking.openURL("tel: " + item.phone);
+                  }}
+                ></Button>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonDuty}>
+                <Button
+                  color="#FF8000"
+                  title="Navigate"
+                  onPress={() => {
+                    const desti =
+                      item.location_of_incident +
+                      ", " +
+                      item.barangay +
+                      ", Quezon City, Metro Manila";
+                    const end = desti.toString();
+                    console.log(end);
+
+                    showLocation({
+                      longitude: 0,
+                      latitude: 0,
+                      title: end,
+                    });
+                  }}
+                ></Button>
+              </TouchableOpacity>
+            </View>
 
             {/*create report output */}
+            
             <TouchableOpacity style={styles.buttonComplete}>
               <Button
                 color="#FF8000"
@@ -499,6 +503,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "grey",
   },
+  buttonContainer: {
+    paddingTop: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
   buttonDuty: {
     textAlign: "center",
     justifyContent: "center",
@@ -545,4 +554,5 @@ const styles = StyleSheet.create({
   nameHead: {
     fontSize: 24,
   },
+  
 });

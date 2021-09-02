@@ -153,10 +153,16 @@ class EquipmentRequestScreen extends Component {
       alert("Cannot Send Empty Request");
       this.setState({ textToState: "", qtyToState: "", viewReq: "" });
     } else {
-      if (this.state.viewReq === "" || this.state.qtyToState === "undefined,\n" || this.state.textToState === "undefined,\n" || this.state.qtyToState === ",\n" || this.state.textToState === ",\n") {
+      if (
+        this.state.viewReq === "" ||
+        this.state.qtyToState === "undefined,\n" ||
+        this.state.textToState === "undefined,\n" ||
+        this.state.qtyToState === ",\n" ||
+        this.state.textToState === ",\n"
+      ) {
         alert("Cannot Send Empty Request");
         this.setState({ textToState: "", qtyToState: "", viewReq: "" });
-      }else {
+      } else {
         Alert.alert(
           "Request Preview",
           "Equipment to be requested \n" + this.state.viewReq,
@@ -202,7 +208,7 @@ class EquipmentRequestScreen extends Component {
                   .catch((err) => {
                     console.error(err);
                   });
-  
+
                 console.log(this.state.repoID);
                 this.setState({ textToState: "", qtyToState: "", viewReq: "" });
               },
@@ -210,9 +216,7 @@ class EquipmentRequestScreen extends Component {
           ]
         );
       }
-
-      }
-      
+    }
   };
   exitReset = () => {
     Alert.alert("Cancel?", "Canceling will discard all changes made", [
@@ -240,28 +244,72 @@ class EquipmentRequestScreen extends Component {
           width: "100%",
         }}
       >
-        <ScrollView style={styles.container}>
-          <View style={styles.row}>
-            <View style={{ margin: 10 }}>
-              <Button
-                title="Add"
-                onPress={() => this.addTextInput(this.state.textInput.length)}
-              />
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <View style={styles.buttonContainer}>
+                <View
+                  style={{
+                    margin: 10,
+                    textAlign: "center",
+                    justifyContent: "center",
+                    width: Dimensions.get("screen").width * 0.2,
+                  }}
+                >
+                  <Button
+                    title="Add"
+                    onPress={() =>
+                      this.addTextInput(this.state.textInput.length)
+                    }
+                  />
+                </View>
+                <View
+                  style={{
+                    margin: 10,
+                    textAlign: "center",
+                    justifyContent: "center",
+                    width: Dimensions.get("screen").width * 0.2,
+                  }}
+                >
+                  <Button
+                    title="Remove"
+                    onPress={() => this.removeTextInput()}
+                  />
+                </View>
+              </View>
             </View>
-            <View style={{ margin: 10 }}>
-              <Button title="Remove" onPress={() => this.removeTextInput()} />
-            </View>
+            {this.state.textInput.map((value) => {
+              return value;
+            })}
           </View>
-          {this.state.textInput.map((value) => {
-            return value;
-          })}
-          <View style={styles.buttonValue}>
-            <TouchableWithoutFeedback style={styles.buttonStyle}>
-              <Button title="Cancel" onPress={() => this.exitReset()} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback style={styles.buttonStyle}>
-              <Button title="View Request" onPress={() => this.getValues()} />
-            </TouchableWithoutFeedback>
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <View style={styles.buttonContainer}>
+                <View
+                  style={{
+                    margin: 10,
+                    textAlign: "center",
+                    justifyContent: "center",
+                    width: Dimensions.get("screen").width * 0.436,
+                  }}
+                >
+                  <Button title="Cancel" onPress={() => this.exitReset()} />
+                </View>
+                <View
+                  style={{
+                    margin: 10,
+                    textAlign: "center",
+                    justifyContent: "center",
+                    width: Dimensions.get("screen").width * 0.436,
+                  }}
+                >
+                  <Button
+                    title="View Request"
+                    onPress={() => this.getValues()}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -293,12 +341,15 @@ const styles = StyleSheet.create({
     width: Dimensions.get("screen").width * 0.2,
   },
   buttonValue: {
-    margin: 20,
+    margin: 10,
     justifyContent: "space-between",
     flexDirection: "row",
   },
   buttonStyle: {
-    width: Dimensions.get("screen").width * 0.45,
+    margin: 10,
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * 0.436,
   },
   row: {
     flexDirection: "row",
@@ -309,6 +360,11 @@ const styles = StyleSheet.create({
   },
   textqty: {
     textAlign: "right",
+  },
+  buttonContainer: {
+    paddingTop: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
 

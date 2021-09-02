@@ -25,7 +25,7 @@ export default class ProfileScreen extends React.Component {
       dataSourceTwo: [],
       Email: "",
       status: "",
-      
+
       //respoCreds
       respoUID: "",
       firstName: "",
@@ -84,7 +84,6 @@ export default class ProfileScreen extends React.Component {
         console.log("error");
       }
     });
-    
 
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
@@ -204,7 +203,9 @@ export default class ProfileScreen extends React.Component {
               {"\n" + name + "\n"}
             </TextInput>
             <Text style={styles.accHead}>Department:</Text>
-            <TextInput editable={false}>{"\n" + item.department + "\n"}</TextInput>
+            <TextInput editable={false}>
+              {"\n" + item.department + "\n"}
+            </TextInput>
             <Text style={styles.accHead}>Team: </Text>
             <TextInput editable={false}>{"\n" + item.team + "\n"}</TextInput>
             <Text style={styles.accHead}>Contact: </Text>
@@ -214,126 +215,128 @@ export default class ProfileScreen extends React.Component {
             <Text style={styles.accHead}>
               {"\n"}Status:{"\n"}
             </Text>
-            <TouchableOpacity style={styles.buttonDuty}>
-              <Button
-                color={butColOne}
-                title={curDuty}
-                onPress={() =>
-                  Alert.alert("Update Duty Status", "", [
-                    {
-                      text: "Cancel",
-                      style: "cancel",
-                    },
-                    {
-                      text: "Update",
-                      onPress: () => {
-                        const itemID = item.id + "";
-                        fetch("https://alert-qc.com/mobile/RespoOnDuty.php", {
-                          method: "POST",
-                          headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            respoID: itemID,
-                            respoStatus: curDuty,
-                          }),
-                        })
-                          .then((response) => response.json())
-                          .then((responseJson) => {
-                            // If the Data matched.
-                            if (responseJson === "Loading~") {
-                            } else {
-                            }
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.buttonDuty}>
+                <Button
+                  color={butColOne}
+                  title={curDuty}
+                  onPress={() =>
+                    Alert.alert("Update Duty Status", "", [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                      {
+                        text: "Update",
+                        onPress: () => {
+                          const itemID = item.id + "";
+                          fetch("https://alert-qc.com/mobile/RespoOnDuty.php", {
+                            method: "POST",
+                            headers: {
+                              Accept: "application/json",
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              respoID: itemID,
+                              respoStatus: curDuty,
+                            }),
                           })
-                          .catch((err) => {
-                            console.error(err);
-                          });
-                        this.componentDidMount();
+                            .then((response) => response.json())
+                            .then((responseJson) => {
+                              // If the Data matched.
+                              if (responseJson === "Loading~") {
+                              } else {
+                              }
+                            })
+                            .catch((err) => {
+                              console.error(err);
+                            });
+                          this.componentDidMount();
+                        },
                       },
-                    },
-                  ])
-                }
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStatus}>
-              <Button
-                color={butCol}
-                title={isAct}
-                onPress={() =>
-                  Alert.alert("Update Current Status", "testing", [
-                    {
-                      text: "Cancel",
-                      style: "cancel",
-                    },
-                    {
-                      text: "Update",
-                      onPress: () => {
-                        this.componentDidMount();
+                    ])
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonStatus}>
+                <Button
+                  color={butCol}
+                  title={isAct}
+                  onPress={() =>
+                    Alert.alert("Update Current Status", "testing", [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
                       },
-                    },
-                  ])
-                }
-              />
-            </TouchableOpacity>
+                      {
+                        text: "Update",
+                        onPress: () => {
+                          this.componentDidMount();
+                        },
+                      },
+                    ])
+                  }
+                />
+              </TouchableOpacity>
+            </View>
           </Text>
           <TouchableOpacity style={styles.buttonEdit}>
-              <Button
+            <Button
               color="#FF8000"
-                title="Edit Profile"
-                onPress={() => {
-                  console.log(this.state.respoUID);
-                  this.props.navigation.navigate("EditProfile", {
-                    rID: this.state.respoUID,
-                    fname: this.state.firstName,
-                    mname: this.state.middleName,
-                    lname: this.state.lastName,
-                    contactNum: this.state.conNum,
-                    //team and dept
-                    emailAddress: this.state.emailAdd,
-                    respoderAddress: this.state.respoAdd,
-                  });
-                }}
-              />
-            </TouchableOpacity >
-            <TouchableOpacity style={styles.buttonReports}>
-              <Button
+              title="Edit Profile"
+              onPress={() => {
+                console.log(this.state.respoUID);
+                this.props.navigation.navigate("EditProfile", {
+                  rID: this.state.respoUID,
+                  fname: this.state.firstName,
+                  mname: this.state.middleName,
+                  lname: this.state.lastName,
+                  contactNum: this.state.conNum,
+                  //team and dept
+                  emailAddress: this.state.emailAdd,
+                  respoderAddress: this.state.respoAdd,
+                });
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonReports}>
+            <Button
               color="#FF8000"
-                title="Past Incidents"
-                onPress={() => {
-                  console.log(this.state.respoUID);
-                  this.props.navigation.navigate("ReportsCompleted", {
-                    rID: this.state.respoUID,
-                    fname: this.state.firstName,
-                    mname: this.state.middleName,
-                    lname: this.state.lastName,
-                    contactNum: this.state.conNum,
-                    //team and dept
-                    emailAddress: this.state.emailAdd,
-                    respoderAddress: this.state.respoAdd,
-                  });
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonReports}>
-              <Button
+              title="Past Incidents"
+              onPress={() => {
+                console.log(this.state.respoUID);
+                this.props.navigation.navigate("ReportsCompleted", {
+                  rID: this.state.respoUID,
+                  fname: this.state.firstName,
+                  mname: this.state.middleName,
+                  lname: this.state.lastName,
+                  contactNum: this.state.conNum,
+                  //team and dept
+                  emailAddress: this.state.emailAdd,
+                  respoderAddress: this.state.respoAdd,
+                });
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonReports}>
+            <Button
               color="#FF8000"
-                title="Equipment Request"
-                onPress={() => {
-                  console.log(this.state.respoUID);
-                  this.props.navigation.navigate("EquipmentRequest", {
-                    rID: this.state.respoUID,
-                    fname: this.state.firstName,
-                    mname: this.state.middleName,
-                    lname: this.state.lastName,
-                    contactNum: this.state.conNum,
-                    //team and dept
-                    emailAddress: this.state.emailAdd,
-                    respoderAddress: this.state.respoAdd,
-                  });
-                }}
-              />
-            </TouchableOpacity>
+              title="Equipment Request"
+              onPress={() => {
+                console.log(this.state.respoUID);
+                this.props.navigation.navigate("EquipmentRequest", {
+                  rID: this.state.respoUID,
+                  fname: this.state.firstName,
+                  mname: this.state.middleName,
+                  lname: this.state.lastName,
+                  contactNum: this.state.conNum,
+                  //team and dept
+                  emailAddress: this.state.emailAdd,
+                  respoderAddress: this.state.respoAdd,
+                });
+              }}
+            />
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -445,6 +448,10 @@ const styles = StyleSheet.create({
   },
   buttonReports: {
     paddingTop: 10,
-
+  },
+  buttonContainer: {
+    paddingTop: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });

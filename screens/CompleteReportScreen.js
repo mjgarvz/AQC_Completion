@@ -160,6 +160,7 @@ export default class CompleteReportScreen extends Component {
               <Text style={styles.reportText}>Time on Dispatch</Text>
               <TextInput
                 style={styles.reportTextInput}
+                placeholder={"10:00 AM"}
                 onChangeText={(data) => this.setState({ responderDT: data })}
               ></TextInput>
 {/*start test*/}
@@ -167,11 +168,13 @@ export default class CompleteReportScreen extends Component {
               <Text style={styles.reportText}>Time on Arrival on Scene</Text>
               <TextInput
                 style={styles.reportTextInput}
+                placeholder={"10:00 AM"}
                 onChangeText={(data) => this.setState({ responderAT: data })}
               ></TextInput>
               <Text style={styles.reportText}>Time on Return to Base</Text>
               <TextInput
                 style={styles.reportTextInput}
+                placeholder={"12:00 NN"}
                 onChangeText={(data) => this.setState({ responderRT: data })}
               ></TextInput>
               <Text style={styles.reportText}>
@@ -179,6 +182,7 @@ export default class CompleteReportScreen extends Component {
               </Text>
               <TextInput
                 style={styles.reportTextInput}
+                placeholder={"1:00 PM"}
                 onChangeText={(data) => this.setState({ responderUCT: data })}
               ></TextInput>
 
