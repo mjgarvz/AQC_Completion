@@ -25,6 +25,9 @@ export default class CreateChatScreen extends Component {
       Email: "",
       defVal: "",
     };
+    setInterval(() => {
+      this._loadPage();
+    }, 1000);
   }
   //load page
   _loadPage() {

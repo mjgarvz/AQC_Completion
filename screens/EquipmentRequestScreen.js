@@ -32,6 +32,7 @@ class EquipmentRequestScreen extends Component {
   }
   componentDidMount() {
     this.addTextInput(this.state.textInput.length);
+    this.setState({ textToState: "", qtyToState: "", viewReq: "" });
   }
 
   //function to add TextInput dynamically
@@ -114,86 +115,104 @@ class EquipmentRequestScreen extends Component {
 
   //function to console the output
   getValues = () => {
-
+    var EmptyEQ = "false";
     this.state.inputData.filter((element) => {
-      var rtext = element.text
-      var rqty = element.qty
+      var rtext = element.text;
+      var rqty = element.qty;
 
-      var text = rtext.replace(/^\s+|\s+$/g, "");
-      var qty = rqty.replace(/^\s+|\s+$/g, "");
-      this.state.textToState = this.state.textToState.concat(
-        text,
-        ",\n"
-      );
-      this.state.qtyToState = this.state.qtyToState.concat(
-        qty,
-        ",\n"
-      );
-      this.state.viewReq = this.state.viewReq.concat(
-        "x",
-        qty,
-        " ",
-        text,
-        "\n"
-      );
+      if (rtext === "" && rqty === "") {
+        EmptyEQ = "true";
+        this.state.textToState = this.state.textToState.concat("", ",\n");
+        this.state.qtyToState = this.state.qtyToState.concat("", ",\n");
+        this.state.viewReq = this.state.viewReq.concat(
+          "x",
+          rqty,
+          " ",
+          rtext,
+          "\n"
+        );
+      } else {
+        EmptyEQ = "false";
+        this.state.textToState = this.state.textToState.concat(rtext, ",\n");
+        this.state.qtyToState = this.state.qtyToState.concat(rqty, ",\n");
+        this.state.viewReq = this.state.viewReq.concat(
+          "x",
+          rqty,
+          " ",
+          rtext,
+          "\n"
+        );
+      }
+
       console.log("Data", this.state.inputData);
       console.log(this.state.textToState);
       console.log(this.state.qtyToState);
       //alert then fetch
     });
-
-    Alert.alert(
-      "Request Preview",
-      "Equipment to be requested \n" + this.state.viewReq,
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            this.setState({ textToState: "", qtyToState: "", viewReq: "" });
-          },
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            fetch("https://alert-qc.com/mobile/createResponderEqReq.php", {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
+    if (EmptyEQ === "true") {
+      alert("Cannot Send Empty Request");
+      this.setState({ textToState: "", qtyToState: "", viewReq: "" });
+    } else {
+      if (this.state.viewReq === "" || this.state.qtyToState === "undefined,\n" || this.state.textToState === "undefined,\n" || this.state.qtyToState === ",\n" || this.state.textToState === ",\n") {
+        alert("Cannot Send Empty Request");
+        this.setState({ textToState: "", qtyToState: "", viewReq: "" });
+      }else {
+        Alert.alert(
+          "Request Preview",
+          "Equipment to be requested \n" + this.state.viewReq,
+          [
+            {
+              text: "Cancel",
+              onPress: () => {
+                this.setState({ textToState: "", qtyToState: "", viewReq: "" });
               },
-              body: JSON.stringify({
-                phpRID: this.state.repoID,
-                textToPhp: this.state.textToState,
-                qtyToPhp: this.state.qtyToState,
-              })
-            })
-              .then((response) => response.json())
-              .then((responseJson) => {
-                // If the Data matched.
-                if (responseJson === "Request Sent") {
-                  Alert.alert("Request Sent","", [
-                    {
-                      text: "OK",
-                      onPress: () => {
-                        this.props.navigation.goBack(null);
-                      },
-                    },
-                  ]);
-                } else {
-                  Alert.alert("Try Again");
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-              });
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: () => {
+                fetch("https://alert-qc.com/mobile/createResponderEqReq.php", {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    phpRID: this.state.repoID,
+                    textToPhp: this.state.textToState,
+                    qtyToPhp: this.state.qtyToState,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((responseJson) => {
+                    // If the Data matched.
+                    if (responseJson === "Request Sent") {
+                      Alert.alert("Request Sent", "", [
+                        {
+                          text: "OK",
+                          onPress: () => {
+                            this.props.navigation.goBack(null);
+                          },
+                        },
+                      ]);
+                    } else {
+                      Alert.alert("Try Again");
+                    }
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+  
+                console.log(this.state.repoID);
+                this.setState({ textToState: "", qtyToState: "", viewReq: "" });
+              },
+            },
+          ]
+        );
+      }
 
-            console.log(this.state.repoID);
-            this.setState({ textToState: "", qtyToState: "", viewReq: "" });
-          },
-        },
-      ]
-    );
+      }
+      
   };
   exitReset = () => {
     Alert.alert("Cancel?", "Canceling will discard all changes made", [
