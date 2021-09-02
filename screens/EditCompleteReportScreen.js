@@ -359,6 +359,24 @@ export default class EditCompleteReportScreen extends Component {
                   title="Update"
                   color="#87c830"
                   onPress={() => {
+                    if (this.state.nresponderVHC === "" ||
+                        this.state.nresponderDT === "" ||
+                        this.state.nresponderAT === "" ||
+                        this.state.nresponderRT === "" ||
+                        this.state.nresponderUCT === "" ||
+                        this.state.nresponderDist === "" ||
+                        this.state.nresponderDesc === "" ||
+                        this.state.nresponderInj === "" ||
+                        this.state.nresponderDeath === "" ||
+                        this.state.ninjuredResponder === "" ||
+                        this.state.ndeadResponder === "" ||
+                        this.state.nresponderEQ === "" ||
+                        this.state.nresponderProb === "" ||
+                        this.state.nresponderDoE === "" ||
+                        this.state.nresponderCause === "" ||
+                        this.state.nresponderActions === ""){
+                      Alert.alert("Please Fill Up all Fields");
+                    }else{
                     fetch(
                       "https://alert-qc.com/mobile/updateResponderReport.php",
                       {
@@ -429,6 +447,7 @@ export default class EditCompleteReportScreen extends Component {
                       .catch((err) => {
                         console.error(err);
                       });
+                    }
                     console.log(this.state.creportID);
                     console.log(this.state.nresponderVHC);
                     console.log(this.state.nresponderDT);

@@ -325,7 +325,28 @@ export default class CompleteReportScreen extends Component {
                   title="Create"
                   color="#87c830"
                   onPress={() => {
-                    fetch("https://alert-qc.com/mobile/createResponderReport.php", {
+                    if (this.state.repoID === "" ||
+                        this.state.responderName === "" ||
+                        this.state.responderVehicle === "" ||
+                        this.state.responderDT === "" ||
+                        this.state.responderAT === "" ||
+                        this.state.responderRT === "" ||
+                        this.state.responderUCT === "" ||
+                        this.state.responderIncDistance === "" ||
+                        this.state.responderLocDesc === "" ||
+                        this.state.responderCInjured === "" ||
+                        this.state.responderCDeaths === "" ||
+                        this.state.responderRInjured === "" ||
+                        this.state.responderRDeaths === "" ||
+                        this.state.responderEq === "" ||
+                        this.state.responderProb === "" ||
+                        this.state.responderDescOfEvents === "" ||
+                        this.state.responderCoI === "" ||
+                        this.state.responderAction === ""){
+                      Alert.alert("Please Fill Up all Fields");
+                    }
+                    else {
+                      fetch("https://alert-qc.com/mobile/createResponderReport.php", {
                       method: "POST",
                       headers: {
                         Accept: "application/json",
@@ -389,6 +410,9 @@ export default class CompleteReportScreen extends Component {
                       .catch((err) => {
                         console.error(err);
                       });
+
+                    }
+                    
                     console.log("Source Report");
                     console.log(this.state.reportID);
                     console.log(this.state.reporterName);

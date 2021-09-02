@@ -72,7 +72,7 @@ class EquipmentRequestScreen extends Component {
     if (dataArray.length !== 0) {
       dataArray.forEach((element) => {
         if (element.index === index) {
-          element.text = text;
+          element.text = text.replace(/^\s+|\s+$/g, "");
           checkBool = true;
         }
       });
@@ -95,7 +95,7 @@ class EquipmentRequestScreen extends Component {
     if (dataArray.length !== 0) {
       dataArray.forEach((element) => {
         if (element.index === index) {
-          element.qty = qty;
+          element.qty = qty.replace(/^\s+|\s+$/g, "");
           checkBool = true;
         }
       });
@@ -114,24 +114,29 @@ class EquipmentRequestScreen extends Component {
 
   //function to console the output
   getValues = () => {
-    console.log("Data", this.state.inputData);
 
     this.state.inputData.filter((element) => {
+      var rtext = element.text
+      var rqty = element.qty
+
+      var text = rtext.replace(/^\s+|\s+$/g, "");
+      var qty = rqty.replace(/^\s+|\s+$/g, "");
       this.state.textToState = this.state.textToState.concat(
-        element.text,
+        text,
         ",\n"
       );
       this.state.qtyToState = this.state.qtyToState.concat(
-        element.qty,
+        qty,
         ",\n"
       );
       this.state.viewReq = this.state.viewReq.concat(
         "x",
-        element.qty,
+        qty,
         " ",
-        element.text,
+        text,
         "\n"
       );
+      console.log("Data", this.state.inputData);
       console.log(this.state.textToState);
       console.log(this.state.qtyToState);
       //alert then fetch
