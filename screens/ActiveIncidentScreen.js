@@ -11,11 +11,13 @@ import {
   TouchableOpacity,
   Alert,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native";
 import { showLocation } from "react-native-map-link";
 import { ThemeConsumer } from "react-native-elements";
+import { ScrollView } from "react-native";
 
 export default class ActiveIncidentScreen extends React.Component {
   constructor(props) {
@@ -79,118 +81,238 @@ export default class ActiveIncidentScreen extends React.Component {
       );
     } else {
       this.state.status = "On Call";
-      return (
-        <View style={styles.repCard}>
-          <Text style={styles.itemText}>
-            <Text style={styles.accHead}>Reporter:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {"\n" + item.first_name + " " + item.last_name + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Contact:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {"\n" + item.phone + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Barangay:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.barangay + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Location:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.location_of_incident + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Incident:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.incident_type + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Injuries:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.injuries + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Description:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.short_description + "\n"}
-            </Text>
-
-            <Text style={styles.accHead}>Date and Time:</Text>
-            <Text style={styles.itemVal} editable={false}>
-              {item.date_time + "\n"}
-            </Text>
-
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.buttonDuty}>
+      if(item.upload === "" || item.upload === undefined){
+        return (
+          <View style={styles.repCard}>
+            <Text style={styles.itemText}>
+              <Text style={styles.accHead}>Reporter:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {"\n" + item.first_name + " " + item.last_name + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Contact:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {"\n" + item.phone + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Barangay:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.barangay + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Location:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.location_of_incident + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Incident:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.incident_type + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Injuries:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.injuries + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Description:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.short_description + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Date and Time:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.date_time + "\n"}
+              </Text>
+  
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonDuty}>
+                  <Button
+                    color="#FF8000"
+                    title="Call"
+                    onPress={() => {
+                      Linking.openURL("tel: " + item.phone);
+                    }}
+                  ></Button>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonDuty}>
+                  <Button
+                    color="#FF8000"
+                    title="Navigate"
+                    onPress={() => {
+                      const desti =
+                        item.location_of_incident +
+                        ", " +
+                        item.barangay +
+                        ", Quezon City, Metro Manila";
+                      const end = desti.toString();
+                      console.log(end);
+  
+                      showLocation({
+                        longitude: 0,
+                        latitude: 0,
+                        title: end,
+                      });
+                    }}
+                  ></Button>
+                </TouchableOpacity>
+              </View>
+  
+              {/*create report output */}
+  
+              <TouchableOpacity style={styles.buttonComplete}>
                 <Button
                   color="#FF8000"
-                  title="Call"
+                  title="Create Complete Report"
                   onPress={() => {
-                    Linking.openURL("tel: " + item.phone);
-                  }}
-                ></Button>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonDuty}>
-                <Button
-                  color="#FF8000"
-                  title="Navigate"
-                  onPress={() => {
-                    const desti =
-                      item.location_of_incident +
-                      ", " +
-                      item.barangay +
-                      ", Quezon City, Metro Manila";
-                    const end = desti.toString();
-                    console.log(end);
-
-                    showLocation({
-                      longitude: 0,
-                      latitude: 0,
-                      title: end,
+                    console.log(this.state.respoUID + this.state.reportID);
+                    this.props.navigation.navigate("CompleteReport", {
+                      //responder data
+                      rID: this.state.respoUID,
+                      fname: this.state.firstName,
+                      mname: this.state.middleName,
+                      lname: this.state.lastName,
+                      contactNum: this.state.conNum,
+                      //team and dept
+                      emailAddress: this.state.emailAdd,
+                      respoderAddress: this.state.respoAdd,
+                      //report data
+                      repId: this.state.reportID,
+                      reportersName: this.state.reporterName,
+                      reportersCont: this.state.reporterContact,
+                      reporterBRGY: this.state.reporterBarangay,
+                      reporterLoc: this.state.reportLocation,
+                      reportedIncident: this.state.reportIncident,
+                      reportedInj: this.state.reportInjury,
+                      reportDescription: this.state.reportDesc,
+                      dateAndTime: this.state.reportDnT,
                     });
                   }}
                 ></Button>
               </TouchableOpacity>
-            </View>
-
-            {/*create report output */}
-            
-            <TouchableOpacity style={styles.buttonComplete}>
-              <Button
-                color="#FF8000"
-                title="Create Complete Report"
-                onPress={() => {
-                  console.log(this.state.respoUID + this.state.reportID);
-                  this.props.navigation.navigate("CompleteReport", {
-                    //responder data
-                    rID: this.state.respoUID,
-                    fname: this.state.firstName,
-                    mname: this.state.middleName,
-                    lname: this.state.lastName,
-                    contactNum: this.state.conNum,
-                    //team and dept
-                    emailAddress: this.state.emailAdd,
-                    respoderAddress: this.state.respoAdd,
-                    //report data
-                    repId: this.state.reportID,
-                    reportersName: this.state.reporterName,
-                    reportersCont: this.state.reporterContact,
-                    reporterBRGY: this.state.reporterBarangay,
-                    reporterLoc: this.state.reportLocation,
-                    reportedIncident: this.state.reportIncident,
-                    reportedInj: this.state.reportInjury,
-                    reportDescription: this.state.reportDesc,
-                    dateAndTime: this.state.reportDnT,
-                  });
-                }}
-              ></Button>
-            </TouchableOpacity>
-          </Text>
-        </View>
-      );
+            </Text>
+          </View>
+        );
+      }
+      else {
+        let ImageURI = {
+          uri: "https://alert-qc.com/assets/uploads/reports/" + item.upload
+          };
+          console.log(item.upload)
+        return (
+          <ScrollView style={styles.repCard}>
+            <Image source={ImageURI} style = {{height: 200, resizeMode : 'stretch', margin: 0 }}></Image>
+            <Text style={styles.itemText}>
+              <Text style={styles.accHead}>Reporter:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {"\n" + item.first_name + " " + item.last_name + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Contact:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {"\n" + item.phone + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Barangay:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.barangay + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Location:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.location_of_incident + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Incident:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.incident_type + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Injuries:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.injuries + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Description:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.short_description + "\n"}
+              </Text>
+  
+              <Text style={styles.accHead}>Date and Time:</Text>
+              <Text style={styles.itemVal} editable={false}>
+                {item.date_time + "\n"}
+              </Text>
+  
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonDuty}>
+                  <Button
+                    color="#FF8000"
+                    title="Call"
+                    onPress={() => {
+                      Linking.openURL("tel: " + item.phone);
+                    }}
+                  ></Button>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonDuty}>
+                  <Button
+                    color="#FF8000"
+                    title="Navigate"
+                    onPress={() => {
+                      const desti =
+                        item.location_of_incident +
+                        ", " +
+                        item.barangay +
+                        ", Quezon City, Metro Manila";
+                      const end = desti.toString();
+                      console.log(end);
+  
+                      showLocation({
+                        longitude: 0,
+                        latitude: 0,
+                        title: end,
+                      });
+                    }}
+                  ></Button>
+                </TouchableOpacity>
+              </View>
+  
+              {/*create report output */}
+  
+              <TouchableOpacity style={styles.buttonComplete}>
+                <Button
+                  color="#FF8000"
+                  title="Create Complete Report"
+                  onPress={() => {
+                    console.log(this.state.respoUID + this.state.reportID);
+                    this.props.navigation.navigate("CompleteReport", {
+                      //responder data
+                      rID: this.state.respoUID,
+                      fname: this.state.firstName,
+                      mname: this.state.middleName,
+                      lname: this.state.lastName,
+                      contactNum: this.state.conNum,
+                      //team and dept
+                      emailAddress: this.state.emailAdd,
+                      respoderAddress: this.state.respoAdd,
+                      //report data
+                      repId: this.state.reportID,
+                      reportersName: this.state.reporterName,
+                      reportersCont: this.state.reporterContact,
+                      reporterBRGY: this.state.reporterBarangay,
+                      reporterLoc: this.state.reportLocation,
+                      reportedIncident: this.state.reportIncident,
+                      reportedInj: this.state.reportInjury,
+                      reportDescription: this.state.reportDesc,
+                      dateAndTime: this.state.reportDnT,
+                    });
+                  }}
+                ></Button>
+              </TouchableOpacity>
+            </Text>
+          </ScrollView>
+        );
+      }
+      
     }
   };
   //onload
@@ -446,42 +568,43 @@ export default class ActiveIncidentScreen extends React.Component {
     if (isLoading) {
       <View></View>;
     }
-
-    return (
-      //<SafeAreaView>
-      <View style={styles.container}>
-        <View>
-          <View style={{ display: "none" }}>
-            {/*profile data rendering but hidden to provide data*/}
-            <FlatList
-              data={dataSource}
-              renderItem={this._renderItem}
-              keyExtractor={(item, index) => index.toString()}
-            ></FlatList>
-          </View>
-          <View style={styles.statusCheck}>
-            <TouchableWithoutFeedback>
-              <TextInput style={styles.textStatus} editable={false}>
-                Assigned Report:
-              </TextInput>
-            </TouchableWithoutFeedback>
-          </View>
+    
+      return (
+        //<SafeAreaView>
+        <View style={styles.container}>
           <View>
-            <FlatList
-              horizontal
-              pagingEnabled={true}
-              showsHorizontalScrollIndicator={false}
-              data={dataSourceTwo}
-              renderItem={this._renderToComplete}
-              keyExtractor={(item, index) => index.toString()}
-              ListEmptyComponent={this._emptyList()}
-              extraData={this.state}
-            ></FlatList>
+            <View style={{ display: "none" }}>
+              {/*profile data rendering but hidden to provide data*/}
+              <FlatList
+                data={dataSource}
+                renderItem={this._renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              ></FlatList>
+            </View>
+            <View style={styles.statusCheck}>
+              <TouchableWithoutFeedback>
+                <TextInput style={styles.textStatus} editable={false}>
+                  Assigned Report:
+                </TextInput>
+              </TouchableWithoutFeedback>
+            </View>
+            <View>
+              <FlatList
+                horizontal
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                data={dataSourceTwo}
+                renderItem={this._renderToComplete}
+                keyExtractor={(item, index) => index.toString()}
+                ListEmptyComponent={this._emptyList()}
+                extraData={this.state}
+              ></FlatList>
+            </View>
           </View>
         </View>
-      </View>
-      //</SafeAreaView>
-    );
+        //</SafeAreaView>
+      );
+    
   }
 }
 
@@ -554,5 +677,4 @@ const styles = StyleSheet.create({
   nameHead: {
     fontSize: 24,
   },
-  
 });
