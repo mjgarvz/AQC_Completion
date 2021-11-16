@@ -261,10 +261,11 @@ export default class IncidentScreen extends React.Component {
                                   );
                                 }
                                 const desti =
-                                  item.location_of_incident +
-                                  ", " +
-                                  item.barangay +
-                                  ", Quezon City, Metro Manila";
+                                  item.location_of_incident;
+                                  // +
+                                  // ", " +
+                                  // item.barangay +
+                                  // ", Quezon City, Metro Manila";
                                 const end = desti.toString();
                                 const start = "My Location";
                                 const travelType = "drive";
@@ -293,10 +294,10 @@ export default class IncidentScreen extends React.Component {
                     {item.first_name + " " + item.last_name + "\n"}
                   </Text>
 
-                  <Text style={styles.accHead}>Barangay:</Text>
+                  {/* <Text style={styles.accHead}>Barangay:</Text>
                   <Text style={styles.itemVal} editable={false}>
                     {item.barangay + "\n"}
-                  </Text>
+                  </Text> */}
 
                   <Text style={styles.accHead}>Location:</Text>
                   <Text style={styles.itemVal} editable={false}>
@@ -452,10 +453,10 @@ export default class IncidentScreen extends React.Component {
                     {item.first_name + " " + item.last_name + "\n"}
                   </Text>
 
-                  <Text style={styles.accHead}>Barangay:</Text>
+                  {/* <Text style={styles.accHead}>Barangay:</Text>
                   <Text style={styles.itemVal} editable={false}>
                     {item.barangay + "\n"}
-                  </Text>
+                  </Text> */}
 
                   <Text style={styles.accHead}>Location:</Text>
                   <Text style={styles.itemVal} editable={false}>

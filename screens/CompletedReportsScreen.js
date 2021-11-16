@@ -142,8 +142,6 @@ export default class PastIncidentScreen extends React.Component {
                 "\n" +
                 "Location: " +
                 item.reporterLoc +
-                ", " +
-                item.reporterBrgy +
                 "\n" +
                 "Incident: " +
                 item.reporterInc,
@@ -230,7 +228,7 @@ export default class PastIncidentScreen extends React.Component {
 
               <Text style={styles.accHead}>Location:</Text>
               <Text style={styles.itemVal} editable={false}>
-                {item.reporterLoc + ", " + item.reporterBrgy + "\n"}
+                {item.reporterLoc +"\n"}
               </Text>
 
               <Text style={styles.accHead}>Incident:</Text>

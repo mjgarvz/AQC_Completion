@@ -95,10 +95,10 @@ export default class ActiveIncidentScreen extends React.Component {
                 {"\n" + item.phone + "\n"}
               </Text>
   
-              <Text style={styles.accHead}>Barangay:</Text>
+              {/* <Text style={styles.accHead}>Barangay:</Text>
               <Text style={styles.itemVal} editable={false}>
                 {item.barangay + "\n"}
-              </Text>
+              </Text> */}
   
               <Text style={styles.accHead}>Location:</Text>
               <Text style={styles.itemVal} editable={false}>
@@ -213,10 +213,10 @@ export default class ActiveIncidentScreen extends React.Component {
                 {"\n" + item.phone + "\n"}
               </Text>
   
-              <Text style={styles.accHead}>Barangay:</Text>
+              {/* <Text style={styles.accHead}>Barangay:</Text>
               <Text style={styles.itemVal} editable={false}>
                 {item.barangay + "\n"}
-              </Text>
+              </Text> */}
   
               <Text style={styles.accHead}>Location:</Text>
               <Text style={styles.itemVal} editable={false}>

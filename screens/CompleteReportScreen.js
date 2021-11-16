@@ -105,10 +105,10 @@ export default class CompleteReportScreen extends Component {
                       {"\n" + this.state.reporterContact + "\n"}
                     </Text>
 
-                    <Text style={styles.accHead}>Barangay:</Text>
+                    {/* <Text style={styles.accHead}>Barangay:</Text>
                     <Text style={styles.itemVal} editable={false}>
                       {this.state.reporterBarangay + "\n"}
-                    </Text>
+                    </Text> */}
 
                     <Text style={styles.accHead}>Location:</Text>
                     <Text style={styles.itemVal} editable={false}>
