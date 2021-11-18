@@ -15,9 +15,7 @@ import {
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import CallPicker from "./CallPicker";
 
 //landing
 
@@ -30,7 +28,7 @@ export default class CompleteReportScreen extends Component {
       Email: "",
       status: "",
       repoID: this.props.route.params.rID,
-      //responderStates
+      //responderStates from prev page
       firstName: this.props.route.params.fname,
       middleName: this.props.route.params.mname,
       lastName: this.props.route.params.lname,
@@ -67,21 +65,16 @@ export default class CompleteReportScreen extends Component {
       responderDescOfEvents: "",
       responderCoI: "",
       responderAction: "",
-
-      //vars
-      isDatePickerVisible: false,
-      setDatePickerVisibility: false,
     };
       
   }
 
-  
-  
-
   render() {
+    //send responder name to var
     this.state.responderName = this.state.firstName + " " + this.state.lastName
 
     return (
+      //reportcard
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.mainContainer}>
@@ -138,6 +131,7 @@ export default class CompleteReportScreen extends Component {
                 </View>
               </Text>
             </View>
+            {/* //completed report card data form */}
             <Text style={styles.reportHeader}>Report Information</Text>
             <View style={styles.reportForm}>
               <Text style={styles.reportText}>Responder</Text>
@@ -297,6 +291,7 @@ export default class CompleteReportScreen extends Component {
               ></TextInput>
             </View>
             <View style={styles.buttonContainer}>
+              {/* //cancel and return to active page */}
               <TouchableWithoutFeedback style={styles.buttonCancel}>
                 <Button
                   color="#ff8000"
@@ -323,7 +318,7 @@ export default class CompleteReportScreen extends Component {
                   }}
                 ></Button>
               </TouchableWithoutFeedback>
-
+                  {/* //complete report with complete data and update server and go back to incident list */}
               <TouchableWithoutFeedback style={styles.buttonComplete}>
                 <Button
                   title="Create"
@@ -416,7 +411,7 @@ export default class CompleteReportScreen extends Component {
                       });
 
                     }
-                    
+                    //dev logs
                     console.log("Source Report");
                     console.log(this.state.reportID);
                     console.log(this.state.reporterName);

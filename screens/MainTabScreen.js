@@ -19,14 +19,18 @@ import CreateChatScreen from "./CreateChatScreen";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+//stacks of pages
 const IncidentStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ChatStack = createStackNavigator();
 const ActiveStack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
-
+//main tab for navigation all pages will be loaded here
 const MainTabScreen = () => (
+  //bottom navigation navigaot stack/main menus
+  
+  //Active page will be loaded first when app opens
   <Tab.Navigator initialRouteName="Active" options={{}}>
     <Tab.Screen
       name="Chat"
@@ -72,7 +76,9 @@ const MainTabScreen = () => (
 );
 
 export default MainTabScreen;
+//navigation stacks for pages on each stack, navigator for pages with pages inside
 
+//incident list navigator
 const IncidentStackScreen = ({ navigation }) => (
   <IncidentStack.Navigator
     screenOptions={{
@@ -92,6 +98,7 @@ const IncidentStackScreen = ({ navigation }) => (
         title: "Incident List",
         headerTitleAlign: "center",
         headerLeft: () => (
+          //log out button
           <CallButton
             onPress={() => {
               Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
@@ -119,7 +126,7 @@ const IncidentStackScreen = ({ navigation }) => (
     />
   </IncidentStack.Navigator>
 );
-
+//active page navigator
 const ActiveStackScreen = ({ navigation }) => (
   <ActiveStack.Navigator
     screenOptions={{
@@ -139,6 +146,7 @@ const ActiveStackScreen = ({ navigation }) => (
         title: "Active Report Screen",
         headerTitleAlign: "center",
         headerLeft: () => (
+          //log out button
           <CallButton
             onPress={() => {
               Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
@@ -175,7 +183,7 @@ const ActiveStackScreen = ({ navigation }) => (
     />
   </ActiveStack.Navigator>
 );
-
+//profile navigator
 const ProfileStackScreen = ({ navigation }) => (
   <ProfileStack.Navigator
     screenOptions={{
@@ -195,6 +203,7 @@ const ProfileStackScreen = ({ navigation }) => (
         title: "Profile Screen",
         headerTitleAlign: "center",
         headerLeft: () => (
+          //log out button
           <CallButton
             onPress={() => {
               Alert.alert("Log Out?", "Are you sure you want to Log Out?", [
@@ -220,6 +229,7 @@ const ProfileStackScreen = ({ navigation }) => (
         ),
       }}
     />
+    {/* //navigator for profile screen */}
     <ProfileStack.Screen
       name="EditProfile"
       component={EditProfileScreen}
@@ -258,7 +268,7 @@ const ProfileStackScreen = ({ navigation }) => (
     />
   </ProfileStack.Navigator>
 );
-
+//chat screen nav
 const ChatStackScreen = ({ navigation }) => (
   <ChatStack.Navigator
     screenOptions={{

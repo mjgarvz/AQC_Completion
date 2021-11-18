@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SignInScreen from "./SignInScreen";
 import MainTabScreen from "./MainTabScreen";
 const SignInStack = createStackNavigator();
-
+//this page makes sure that the sign in page will pop up first before the the other screens
 const SignInStackScreen = ({ navigation }) => (
   <SignInStack.Navigator
     screenOptions={{

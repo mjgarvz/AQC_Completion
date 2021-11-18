@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const RootStack = createStackNavigator();
 import SignInStackScreen from "./SignInStackScreen";
-
+//FIRST SCREEN TO LAOD
 const RootStackScreen = ({ navigation }) => (
   <RootStack.Navigator screenOptions={{ headerShown: false }}>
     <RootStack.Screen

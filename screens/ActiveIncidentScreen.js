@@ -51,7 +51,7 @@ export default class ActiveIncidentScreen extends React.Component {
       this.componentDidMount();
     }, 1000);
   }
-
+//if no active report
   _emptyList = () => {
     return (
       <View>
@@ -61,6 +61,7 @@ export default class ActiveIncidentScreen extends React.Component {
   };
   //active report
   _renderToComplete = ({ item, index }) => {
+    //take reprter data
     this.state.reportID = item.id;
     this.state.reporterName = item.first_name + " " + item.last_name;
     this.state.reporterContact = item.phone;
@@ -72,6 +73,7 @@ export default class ActiveIncidentScreen extends React.Component {
     this.state.reportDnT = item.date_time;
 
     if (item.id === undefined) {
+      //if list is empty set user status to active
       this.state.status = "Available";
       return (
         <View>
@@ -79,9 +81,13 @@ export default class ActiveIncidentScreen extends React.Component {
         </View>
       );
     } else {
+      //else load an active report
+      //update user
       this.state.status = "On Call";
+      //if report no image
       if(item.upload === "" || item.upload === undefined){
         return (
+          //incident card from incident
           <View style={styles.repCard}>
             <Text style={styles.itemText}>
               <Text style={styles.accHead}>Reporter:</Text>
@@ -125,6 +131,7 @@ export default class ActiveIncidentScreen extends React.Component {
               </Text>
   
               <View style={styles.buttonContainer}>
+                {/* //open contact */}
                 <TouchableOpacity style={styles.buttonDuty}>
                   <Button
                     color="#FF8000"
@@ -134,6 +141,7 @@ export default class ActiveIncidentScreen extends React.Component {
                     }}
                   ></Button>
                 </TouchableOpacity>
+                {/* //open maps */}
                 <TouchableOpacity style={styles.buttonDuty}>
                   <Button
                     color="#FF8000"
@@ -195,6 +203,7 @@ export default class ActiveIncidentScreen extends React.Component {
         );
       }
       else {
+        //if report has image
         let ImageURI = {
           uri: "https://alert-qc.com/assets/uploads/reports/" + item.upload
           };
@@ -244,6 +253,7 @@ export default class ActiveIncidentScreen extends React.Component {
               </Text>
   
               <View style={styles.buttonContainer}>
+                {/* //open contact */}
                 <TouchableOpacity style={styles.buttonDuty}>
                   <Button
                     color="#FF8000"
@@ -253,6 +263,7 @@ export default class ActiveIncidentScreen extends React.Component {
                     }}
                   ></Button>
                 </TouchableOpacity>
+                {/* //open maps */}
                 <TouchableOpacity style={styles.buttonDuty}>
                   <Button
                     color="#FF8000"
@@ -345,7 +356,7 @@ export default class ActiveIncidentScreen extends React.Component {
         console.log("error");
       }
     });
-
+    //check user email then fetch active report
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
         //If userEmail has data -> email
@@ -372,7 +383,7 @@ export default class ActiveIncidentScreen extends React.Component {
       }
     });
   }
-  //profile data
+  //profile data used to check user status
   _renderItem = ({ item, index }) => {
     this.state.respoUID = item.id + "";
     this.state.firstName = item.first_name + "";
@@ -582,6 +593,7 @@ export default class ActiveIncidentScreen extends React.Component {
                 keyExtractor={(item, index) => index.toString()}
               ></FlatList>
             </View>
+            {/*title*/}
             <View style={styles.statusCheck}>
               <TouchableWithoutFeedback>
                 <TextInput style={styles.textStatus} editable={false}>
@@ -590,6 +602,7 @@ export default class ActiveIncidentScreen extends React.Component {
               </TouchableWithoutFeedback>
             </View>
             <View>
+              {/*active report data*/}
               <FlatList
                 horizontal
                 pagingEnabled={true}

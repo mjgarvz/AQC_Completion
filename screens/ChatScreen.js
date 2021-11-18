@@ -10,7 +10,7 @@ class ChatScreen extends Component {
       loaded: false,
     };
   }
-
+//load main
   render() {
     return (
       <View style={styles.screen}>
@@ -33,7 +33,7 @@ class ChatScreen extends Component {
     );
   }
 }
-
+//open main chat area
 ChatScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Talk to a Responder",

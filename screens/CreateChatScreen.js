@@ -25,6 +25,7 @@ export default class CreateChatScreen extends Component {
       Email: "",
       defVal: "",
     };
+    //refresher per 1 sec
     setInterval(() => {
       this._loadPage();
     }, 1000);
@@ -41,7 +42,7 @@ export default class CreateChatScreen extends Component {
       });
     this.setState({ placeholder: "Hi! How are you doing?" });
   }
-
+//main load
   componentDidMount() {
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
@@ -61,6 +62,7 @@ export default class CreateChatScreen extends Component {
         });
       });
   }
+  //send msg func
   SendMsg = () => {
     const { userMessage } = this.state;
     console.log(userMessage);
@@ -96,8 +98,7 @@ export default class CreateChatScreen extends Component {
         console.error(err);
       });
   };
-  //INIDENT CARD
-
+//chatsfield loader
   _renderItem = ({ item, index }) => {
     return (
       <View style={styles.itemCard}>
@@ -105,7 +106,7 @@ export default class CreateChatScreen extends Component {
       </View>
     );
   };
-
+//load text field and send
   render() {
     let { dataSource, isLoading } = this.state;
     if (isLoading) {
@@ -116,6 +117,7 @@ export default class CreateChatScreen extends Component {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.chatScreen}>
+              {/* //load chats */}
               <FlatList
                 keyboardShouldPersistTaps="always"
                 data={dataSource}
@@ -141,6 +143,7 @@ export default class CreateChatScreen extends Component {
                   onChangeText={(userMessage) => this.setState({ userMessage })}
                   autoCapitalize="sentences"
                 />
+                {/* //clear field */}
                 <Button
                   title="Send"
                   onPress={() => {

@@ -20,8 +20,11 @@ export default class IncidentScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      //data array from server
       dataSource: [],
+      //user email
       Email: "",
+      //var for status from server then checker var
       respo_status: "",
       checkResponderStatus: "",
     };
@@ -30,7 +33,7 @@ export default class IncidentScreen extends React.Component {
     }, 5000);
   }
   //MAP NAV
-  //load page
+  //load page and change user status
   _loadPage() {
     fetch("https://alert-qc.com/mobile/loadRespoStatus.php", {
       method: "POST",
@@ -42,6 +45,7 @@ export default class IncidentScreen extends React.Component {
         respo_email: this.state.Email,
       }),
     })
+    //change user status
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson === "On Call") {
@@ -76,7 +80,7 @@ export default class IncidentScreen extends React.Component {
       });
   }
 
-  //PAGE LOAD
+  //PAGE LOAD and check for user status
   componentDidMount() {
     var uEmail = "";
     AsyncStorage.getItem("userEmail").then((data) => {
@@ -113,7 +117,7 @@ export default class IncidentScreen extends React.Component {
         console.log("error");
       }
     });
-
+    //get email
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
         //If userEmail has data -> email
@@ -142,6 +146,7 @@ export default class IncidentScreen extends React.Component {
   }
   //INCIDENT CARD
   _renderItem = ({ item, index }) => {
+    //if data is undefined of list is empty
     if (item.id === undefined) {
       return (
         <View>
@@ -149,9 +154,12 @@ export default class IncidentScreen extends React.Component {
         </View>
       );
     } else {
+      //load if any data from back end is available
+      //check for image
       if (item.upload === "" || item.upload === undefined) {
         return (
           <View>
+            {/* //on press pop up alert */}
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
@@ -251,8 +259,6 @@ export default class IncidentScreen extends React.Component {
                                   // item.barangay +
                                   // ", Quezon City, Metro Manila";
                                 const end = desti.toString();
-                                const start = "My Location";
-                                const travelType = "drive";
 
                                 console.log(end);
 
@@ -303,6 +309,7 @@ export default class IncidentScreen extends React.Component {
           </View>
         );
       } else {
+        //if with image get image
         let ImageURI = {
           uri: "https://alert-qc.com/assets/uploads/reports/" + item.upload,
         };
@@ -312,6 +319,7 @@ export default class IncidentScreen extends React.Component {
               source={ImageURI}
               style={{ height: 200, resizeMode: "stretch", margin: 5 }}
             ></Image>
+            {/* //on press pop up alert */}
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
@@ -467,6 +475,7 @@ export default class IncidentScreen extends React.Component {
   };
 
   render() {
+    //if user has an active call load a blank page with text
     if (this.state.checkResponderStatus === "On Call") {
       return (
         <View
@@ -485,12 +494,14 @@ export default class IncidentScreen extends React.Component {
         </View>
       );
     } else {
+      //else load list for user
       let { dataSource, isLoading } = this.state;
       if (isLoading) {
         <View></View>;
       }
 
       return (
+        //list load
         <SafeAreaView>
           <View styles={styles.container}>
             <FlatList

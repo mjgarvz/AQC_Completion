@@ -155,7 +155,7 @@ export default class PastIncidentScreen extends React.Component {
                   onPress: () => {
                     //send notification
 
-                    //assign report to self
+                    //assign report to be edited and open next page
                     var repID = item.responderReportID + "";
                     Alert.alert(
                       "Edit Report",
@@ -245,7 +245,7 @@ export default class PastIncidentScreen extends React.Component {
       );
     }
   };
-
+//list all past report
   render() {
     let { dataSource, isLoading } = this.state;
     if (isLoading) {

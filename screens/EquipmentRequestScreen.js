@@ -67,6 +67,7 @@ class EquipmentRequestScreen extends Component {
   };
 
   //function to add text from TextInputs into single array
+  //text field
   addValues = (text, index) => {
     let dataArray = this.state.inputData;
     let checkBool = false;
@@ -89,7 +90,7 @@ class EquipmentRequestScreen extends Component {
       });
     }
   };
-
+  //qty field
   addValues2 = (qty, index) => {
     let dataArray = this.state.inputData;
     let checkBool = false;
@@ -149,6 +150,7 @@ class EquipmentRequestScreen extends Component {
       console.log(this.state.qtyToState);
       //alert then fetch
     });
+    //check if empty
     if (EmptyEQ === "true") {
       alert("Cannot Send Empty Request");
       this.setState({ textToState: "", qtyToState: "", viewReq: "" });
@@ -163,6 +165,7 @@ class EquipmentRequestScreen extends Component {
         alert("Cannot Send Empty Request");
         this.setState({ textToState: "", qtyToState: "", viewReq: "" });
       } else {
+        //if not empty view with alert then cancel or send
         Alert.alert(
           "Request Preview",
           "Equipment to be requested \n" + this.state.viewReq,
@@ -218,6 +221,7 @@ class EquipmentRequestScreen extends Component {
       }
     }
   };
+  //exit function clear all vars then go back
   exitReset = () => {
     Alert.alert("Cancel?", "Canceling will discard all changes made", [
       {
@@ -234,7 +238,7 @@ class EquipmentRequestScreen extends Component {
 
     console.log("discard");
   };
-
+//main
   render() {
     return (
       <KeyboardAvoidingView
@@ -248,6 +252,7 @@ class EquipmentRequestScreen extends Component {
           <View style={styles.container}>
             <View style={styles.row}>
               <View style={styles.buttonContainer}>
+                {/* //add fields button */}
                 <View
                   style={{
                     margin: 10,
@@ -263,6 +268,7 @@ class EquipmentRequestScreen extends Component {
                     }
                   />
                 </View>
+                {/* //remove fields button */}
                 <View
                   style={{
                     margin: 10,
@@ -285,6 +291,7 @@ class EquipmentRequestScreen extends Component {
           <View style={styles.container}>
             <View style={styles.row}>
               <View style={styles.buttonContainer}>
+                {/* //cancel button */}
                 <View
                   style={{
                     margin: 10,
@@ -295,6 +302,7 @@ class EquipmentRequestScreen extends Component {
                 >
                   <Button title="Cancel" onPress={() => this.exitReset()} />
                 </View>
+                {/* //view button */}
                 <View
                   style={{
                     margin: 10,

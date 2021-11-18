@@ -20,6 +20,7 @@ export default class ProfileScreen extends React.Component {
     super(props);
 
     this.state = {
+      //list loader
       isLoading: true,
       dataSource: [],
       dataSourceTwo: [],
@@ -84,7 +85,7 @@ export default class ProfileScreen extends React.Component {
         console.log("error");
       }
     });
-
+    //update status button to On Call or Available
     AsyncStorage.getItem("userEmail").then((data) => {
       if (data) {
         //If userEmail has data -> email
@@ -280,6 +281,7 @@ export default class ProfileScreen extends React.Component {
               </TouchableOpacity>
             </View>
           </Text>
+          {/* //go to  edit profile */}
           <TouchableOpacity style={styles.buttonEdit}>
             <Button
               color="#FF8000"
@@ -299,6 +301,7 @@ export default class ProfileScreen extends React.Component {
               }}
             />
           </TouchableOpacity>
+          {/* // got to past incidents */}
           <TouchableOpacity style={styles.buttonReports}>
             <Button
               color="#FF8000"
@@ -318,6 +321,7 @@ export default class ProfileScreen extends React.Component {
               }}
             />
           </TouchableOpacity>
+          {/* //go to equipment requests */}
           <TouchableOpacity style={styles.buttonReports}>
             <Button
               color="#FF8000"
@@ -355,7 +359,7 @@ export default class ProfileScreen extends React.Component {
     }
 
     return (
-      //<SafeAreaView>
+      //load lists on screen
       <View style={styles.container}>
         <View>
           {/*profile data*/}
@@ -381,7 +385,6 @@ export default class ProfileScreen extends React.Component {
           </View>
         </View>
       </View>
-      //</SafeAreaView>
     );
   }
 }

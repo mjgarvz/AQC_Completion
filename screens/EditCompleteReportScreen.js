@@ -18,11 +18,6 @@ import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native";
 import { showLocation } from "react-native-map-link";
 
-
-import CallPicker from "./CallPicker";
-
-//landing
-
 export default class EditCompleteReportScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +28,7 @@ export default class EditCompleteReportScreen extends Component {
       status: "",
       creportID: this.props.route.params.rID,
       repoID: "",
+      //vars from previous page
       sourceReportID: this.props.route.params.sourceReportID,
       reporter: this.props.route.params.reporter,
       reporterCont: this.props.route.params.reporterCont,
@@ -90,33 +86,10 @@ export default class EditCompleteReportScreen extends Component {
       nresponderDoE: this.props.route.params.responderDoE,
       nresponderCause: this.props.route.params.responderCause,
       nresponderActions: this.props.route.params.responderActions,
-
-      //vars
-      isDatePickerVisible: false,
-      setDatePickerVisibility: false,
     };
   }
-  // componentDidMount() {
-  //   //load report
-  //   fetch("https://alert-qc.com/mobile/loadCompletedReport.php", {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       phpcreportID: this.state.creportID,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((reseponseJson) => {
-  //       this.setState({
-  //         isLoading: false.valueOf,
-  //         dataSource: reseponseJson,
-  //       });
-  //     });
-  // }
 
+  //incident card
   render() {
     let { dataSource, isLoading } = this.state;
     if (isLoading) {
@@ -176,7 +149,7 @@ export default class EditCompleteReportScreen extends Component {
                     <Text style={styles.itemVal} editable={false}>
                       {"\n" + this.state.reporterDnT}
                     </Text>
-
+                    {/* //open googlemaps */}
                     <TouchableOpacity style={styles.buttonDuty2}>
                     <Button
                       color="#FF8000"
@@ -203,6 +176,7 @@ export default class EditCompleteReportScreen extends Component {
                 </View>
               </Text>
             </View>
+            {/* //completed report fields */}
             <Text style={styles.reportHeader}>Report Information</Text>
             <View style={styles.reportForm}>
               <Text style={styles.reportText}>Responder</Text>
@@ -351,6 +325,7 @@ export default class EditCompleteReportScreen extends Component {
                 }
               ></TextInput>
             </View>
+            {/* //cancel button */}
             <View style={styles.buttonContainer}>
               <TouchableWithoutFeedback style={styles.buttonCancel}>
                 <Button
@@ -378,12 +353,13 @@ export default class EditCompleteReportScreen extends Component {
                   }}
                 ></Button>
               </TouchableWithoutFeedback>
-
+                  {/* //update button */}
               <TouchableWithoutFeedback style={styles.buttonComplete}>
                 <Button
                   title="Update"
                   color="#87c830"
                   onPress={() => {
+                    //data sent to be updated checked for if empty
                     if (this.state.nresponderVHC === "" ||
                         this.state.nresponderDT === "" ||
                         this.state.nresponderAT === "" ||
@@ -410,21 +386,8 @@ export default class EditCompleteReportScreen extends Component {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         },
+                        //data sentto back end
                         body: JSON.stringify({
-                          //send incident report data
-                          // phpRID: this.state.nsourceReportID,
-                          // phpName: this.state.nreporter,
-                          // phpreporterContact: this.state.nreporterCont,
-                          // phpreporterBarangay: this.state.nreporterBrgy,
-                          // phpreporterLocation: this.state.nreporterLoc,
-                          // phpreporterIncident: this.state.nreporterInc,
-                          // phpreporterInjured: this.state.nreporterInj,
-                          // phpreportDesc: this.state.nreporterDesc,
-                          // phpreportDnT: this.state.nreporterDnT,
-
-                          // //send incident responder report data
-                          // phpresponderID: this.state.nresponderID,
-                          // phpresponderName: this.state.nresponderName,
                           creportID: this.state.creportID,
                           phpresponderVehicle: this.state.nresponderVHC,
                           phpresponderDT: this.state.nresponderDT,
@@ -473,6 +436,7 @@ export default class EditCompleteReportScreen extends Component {
                         console.error(err);
                       });
                     }
+                    //dev only  console logs
                     console.log(this.state.creportID);
                     console.log(this.state.nresponderVHC);
                     console.log(this.state.nresponderDT);
@@ -502,7 +466,7 @@ export default class EditCompleteReportScreen extends Component {
     );
   }
 }
-
+//styles
 const styles = StyleSheet.create({
   container: {},
   itemCard: {

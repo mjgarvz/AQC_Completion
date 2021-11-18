@@ -25,6 +25,7 @@ export default class EditProfileScreen extends Component {
       dataSource: [],
       Email: "",
       status: "",
+      //vars from previous page
       repoID: this.props.route.params.rID,
       //responderStates
       firstName: this.props.route.params.fname,
@@ -43,7 +44,7 @@ export default class EditProfileScreen extends Component {
       rTeam: this.props.route.params.emailAddress,
     };
   }
-
+  //edit profile form
   render() {
     let { dataSource, isLoading } = this.state;
     if (isLoading) {
@@ -94,6 +95,7 @@ export default class EditProfileScreen extends Component {
               </View>
             </Text>
             <View style={styles.buttonContainer}>
+              {/* //discard changes and go back */}
               <TouchableWithoutFeedback style={styles.buttonCancel}>
                 <Button
                   color="#ff8000"
@@ -120,7 +122,7 @@ export default class EditProfileScreen extends Component {
                   }}
                 ></Button>
               </TouchableWithoutFeedback>
-
+                  {/* //update and go back */}
               <TouchableWithoutFeedback style={styles.buttonUpdate}>
                 <Button
                   title="update"
@@ -132,6 +134,7 @@ export default class EditProfileScreen extends Component {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                       },
+                      //send data to backend
                       body: JSON.stringify({
                         phpRID: this.state.repoID,
                         phpFname: this.state.newFirstName,

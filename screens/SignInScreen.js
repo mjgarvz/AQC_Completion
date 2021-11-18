@@ -77,9 +77,11 @@ class SignInScreen extends Component {
 
   render() {
     return (
+      //main screen
       <ScrollView contentContainerStyle={styles.scrollViewStyle}>
         <View></View>
         <View style={styles.main}>
+          {/* //image */}
           <View style={styles.logoContainer}>
             <Image
               style={styles.logo}
@@ -87,7 +89,7 @@ class SignInScreen extends Component {
             />
             <Text style={styles.loginTitle}>Login to your account</Text>
           </View>
-
+          {/* //sign in  form */}
           <View style={styles.formControl}>
             <View style={styles.labelContainer}>
               <Ionicons style={styles.icon} name="ios-person" size={15} />
