@@ -13,9 +13,7 @@ import {
   Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { OpenMapDirections } from "react-native-navigation-directions";
 import { showLocation } from "react-native-map-link";
-import { NavigationActions } from "react-navigation";
 
 export default class IncidentScreen extends React.Component {
   constructor(props) {
@@ -32,20 +30,6 @@ export default class IncidentScreen extends React.Component {
     }, 5000);
   }
   //MAP NAV
-  _callShowDirections = () => {
-    const endPoint = {
-      longitude: 121.0493,
-      latitude: 14.6516,
-    };
-
-    console.log(endPoint);
-
-    const transportPlan = "d";
-
-    OpenMapDirections(null, endPoint, transportPlan).then((res) => {
-      console.log(res);
-    });
-  };
   //load page
   _loadPage() {
     fetch("https://alert-qc.com/mobile/loadRespoStatus.php", {
@@ -421,10 +405,11 @@ export default class IncidentScreen extends React.Component {
                                   );
                                 }
                                 const desti =
-                                  item.location_of_incident +
-                                  ", " +
-                                  item.barangay +
-                                  ", Quezon City, Metro Manila";
+                                  item.location_of_incident 
+                                  // +
+                                  // ", " +
+                                  // item.barangay +
+                                  // ", Quezon City, Metro Manila";
                                 const end = desti.toString();
                                 const start = "My Location";
                                 const travelType = "drive";

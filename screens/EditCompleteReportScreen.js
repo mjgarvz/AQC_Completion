@@ -11,11 +11,13 @@ import {
   FlatList,
   TextInput,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { showLocation } from "react-native-map-link";
+
 
 import CallPicker from "./CallPicker";
 
@@ -174,6 +176,29 @@ export default class EditCompleteReportScreen extends Component {
                     <Text style={styles.itemVal} editable={false}>
                       {"\n" + this.state.reporterDnT}
                     </Text>
+
+                    <TouchableOpacity style={styles.buttonDuty2}>
+                    <Button
+                      color="#FF8000"
+                      title="Navigate"
+                      onPress={() => {
+                        const desti =
+                          this.state.reporterLoc
+                          // +
+                          // ", " +
+                          // item.barangay +
+                          // ", Quezon City, Metro Manila";
+                        const end = desti.toString();
+                        console.log(end);
+    
+                        showLocation({
+                          longitude: 0,
+                          latitude: 0,
+                          title: end,
+                        });
+                      }}
+                    ></Button>
+                </TouchableOpacity>
                   </Text>
                 </View>
               </Text>
@@ -500,6 +525,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     width: Dimensions.get("screen").width * 0.436,
+    paddingRight: 10,
+  },
+  buttonDuty2: {
+    textAlign: "center",
+    justifyContent: "center",
+    width: Dimensions.get("screen").width * .81,
     paddingRight: 10,
   },
   buttonStatus: {

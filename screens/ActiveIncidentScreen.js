@@ -16,7 +16,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native";
 import { showLocation } from "react-native-map-link";
-import { ThemeConsumer } from "react-native-elements";
 import { ScrollView } from "react-native";
 
 export default class ActiveIncidentScreen extends React.Component {
@@ -141,10 +140,11 @@ export default class ActiveIncidentScreen extends React.Component {
                     title="Navigate"
                     onPress={() => {
                       const desti =
-                        item.location_of_incident +
-                        ", " +
-                        item.barangay +
-                        ", Quezon City, Metro Manila";
+                        item.location_of_incident 
+                        // +
+                        // ", " +
+                        // item.barangay +
+                        // ", Quezon City, Metro Manila";
                       const end = desti.toString();
                       console.log(end);
   
@@ -259,10 +259,11 @@ export default class ActiveIncidentScreen extends React.Component {
                     title="Navigate"
                     onPress={() => {
                       const desti =
-                        item.location_of_incident +
-                        ", " +
-                        item.barangay +
-                        ", Quezon City, Metro Manila";
+                        item.location_of_incident
+                        //  +
+                        // ", " +
+                        // item.barangay +
+                        // ", Quezon City, Metro Manila";
                       const end = desti.toString();
                       console.log(end);
   
